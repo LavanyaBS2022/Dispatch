@@ -1,0 +1,7 @@
+{
+  "name": "Dispatch",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
