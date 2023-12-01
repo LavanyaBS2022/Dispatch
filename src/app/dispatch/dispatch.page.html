@@ -1,0 +1,95 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Route Dispatch
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <!-- First Card - 100% Width -->
+    <ion-row class="input-row">
+      <ion-col size-lg="6" size-md="12" size-sm="12" size-xs="12">
+        <ion-card class="first-card">
+          <ion-card-header>
+            <ion-toolbar>
+              <ion-title>
+                Route Dispatch
+              </ion-title>
+              <ion-buttons slot="end">
+                <ion-button (click)="saveData()">Save</ion-button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-card-header>
+          <ion-card-content class="card-content">
+            <!-- Your content for the first card -->
+            <ion-item>
+              {{ selectedDate | date }}
+              <ion-icon name="calendar" slot="end" (click)="openDatePicker()"></ion-icon>
+              <ion-datetime *ngIf="showDatePicker" [(ngModel)]="selectedDate" (ionChange)="onDateSelected($event)">
+              </ion-datetime>
+            </ion-item>
+
+            <ion-item>
+              <ion-select class="custom-input" placeholder="Route" [(ngModel)]="selectedRoute">
+                <ion-select-option *ngFor="let route of routeOptions" [value]="route">{{ route }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+
+            <ion-item>
+              <ion-select class="custom-input" placeholder="Despatcher Incharge"
+                [(ngModel)]="selectedDespatcherIncharge">
+                <ion-select-option *ngFor="let despatcher of despatcherOptions" [value]="despatcher">
+                  {{ despatcher }}</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <div class="ion-text-center">
+              <ion-button [disabled]="!allFieldsFilled()" (click)="loadData()">Load</ion-button>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="second-third-cards" *ngIf="showSecondAndThirdCards">
+      <ion-col size-lg="12" size-md="12" size-sm="12" size-xs="12">
+        <ion-card>
+          <!-- Content for the second card -->
+          <ion-card-header>
+            <ion-toolbar>
+              <ion-title>Second Card</ion-title>
+            </ion-toolbar>
+          </ion-card-header>
+          <ion-card-content class="ion-text-center">
+            <!-- Center the card content -->
+            <ion-grid class="custom-table">
+              <ion-row class="header-row">
+                <ion-col *ngFor="let header of tableHeaders" class="header-cell ion-text-wrap">{{ header }}</ion-col>
+              </ion-row>
+              <ion-row *ngFor="let row of tableData; let rowIndex = index" class="data-row">
+                <!-- Inside the ion-row *ngFor="let row of tableData; let rowIndex = index" class="data-row" -->
+                <ion-col *ngFor="let cell of row; let colIndex = index" class="data-cell ion-text-wrap">
+                  <!-- Make 'FGS Qty' and 'FGS Crates' fields editable with input boxes -->
+                  <ng-container *ngIf="colIndex === 3 || colIndex === 4">
+                    <input [(ngModel)]="tableData[rowIndex][colIndex]" class="responsive-input"/>
+                  </ng-container>
+                  <!-- Display other fields as text -->
+                  <ng-container *ngIf="colIndex !== 3 && colIndex !== 4">
+                    {{ cell }}
+                  </ng-container>
+                  <!-- Display an edit icon in the 'Edit' column -->
+                  <ng-container *ngIf="colIndex === 5">
+                    <ion-icon name="create" (click)="editRow(rowIndex)"></ion-icon>
+                  </ng-container>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+        
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

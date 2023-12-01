@@ -1,0 +1,131 @@
+/* card-layout.page.scss */
+
+ion-header {
+    ion-toolbar {
+      background-color: #f0f0f0; /* Replace with your desired light color */
+    }
+  }
+  
+  ion-content {
+    ion-grid {
+      .first-card {
+        ion-card-header {
+          background-color: #f0f0f0; /* Replace with your desired light color */
+        }
+  
+        .card-content {
+          display: flex;
+          flex-direction: column;
+          // align-items: center;
+          // justify-content: center;
+          margin-top: 20px; /* Adjust the margin as needed */
+        }
+      }
+  
+      // .second-third-cards {
+      //   ion-col {
+      //     ion-card {
+      //       /* Add any styles for the second and third cards as needed */
+      //     }
+      //   }
+      // }
+    }
+  }
+  
+  .input-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .custom-input {
+    width:  100%; /* Decrease the width of the custom-input */
+    margin-bottom: 10px;
+  }
+  
+  .custom-button {
+    margin-top: 10px;
+  }
+  
+  /* Add this style to change the background color of the Save button */
+  ion-button {
+    color: #fff;
+    background-color: #20a8d8;
+    border-color: #20a8d8;
+  }
+  
+  .body {
+    color: #23282c;
+    text-align: left;
+    background-color: #e4e5e6;
+  }
+  
+  ion-row ion-item {
+    ion-label {
+      max-width: 100%; /* Adjust the max-width to your preference */
+    }
+  
+    ion-icon {
+      margin-left: auto; /* Push the calendar icon to the right */
+    }
+  }
+
+/* Style for the header row */
+.header-row {
+    background-color: #f2f2f2; /* Set a background color for the header row */
+    border-bottom: 1px solid #ccc; /* Add a border below the header row */
+  }
+  
+  /* Style for each header cell */
+  .header-cell {
+    padding: 10px; /* Add some padding to the header cells */
+    text-align: center; /* Center the text in the header cells */
+    font-weight: bold; /* Make the text bold */
+    border-right: 1px solid #ccc; /* Add a border to the right of each header cell */
+  }
+  
+  /* Style for the data rows */
+  .data-row {
+    border-bottom: 1px solid #ccc; /* Add a border below each data row */
+  }
+  
+  /* Style for each data cell */
+  .data-cell {
+    padding: 10px; /* Add some padding to the data cells */
+    text-align: center; /* Center the text in the data cells */
+    border-right: 1px solid #ccc; /* Add a border to the right of each data cell */
+  }
+  
+  /* Remove the right border of the last header cell and data cell */
+  .header-row .header-cell:last-child,
+  .data-row .data-cell:last-child {
+    border-right: none;
+  }
+  
+  .table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.table, .table th, .table td {
+  border: 1px solid #ddd;
+}
+
+.table th, .table td {
+  padding: 8px;
+  text-align: left;
+}
+
+.buttons-container {
+  margin-top: 10px; /* Add margin to separate buttons from the table */
+}
+
+/* Responsive styles */
+@media (max-width: 576px) {
+  .table th, .table td {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+}

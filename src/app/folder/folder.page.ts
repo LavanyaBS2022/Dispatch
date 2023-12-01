@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -9,6 +9,8 @@ import { ActivatedRoute } from '@angular/router';
 export class FolderPage implements OnInit {
   public folder!: string;
   private activatedRoute = inject(ActivatedRoute);
+
+  @Input() rowData!: string[];
   constructor() {}
 
   ngOnInit() {

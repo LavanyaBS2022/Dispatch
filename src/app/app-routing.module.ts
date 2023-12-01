@@ -1,15 +1,21 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { DispatchDetailsPage } from './dispatch-details/dispatch-details.page';
+import { DispatchPage } from './dispatch/dispatch.page';
 
 const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'folder/Inbox',
-    pathMatch: 'full'
+    path: 'dispatch',
+    component: DispatchPage
   },
   {
-    path: 'folder/:id',
-    loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
+    path: 'dispatch-details',
+    component: DispatchDetailsPage
+  },
+  {
+    path: '',
+    redirectTo: '/dispatch',
+    pathMatch: 'full'
   }
 ];
 
