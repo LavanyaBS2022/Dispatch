@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { AlertController, ModalController } from '@ionic/angular';
+import { Component, ViewChild } from '@angular/core';
+import { ApiService } from '../shared/services/api.service';
 
 @Component({
   selector: 'app-dispatch-details',
@@ -7,25 +7,48 @@ import { AlertController, ModalController } from '@ionic/angular';
   styleUrls: ['./dispatch-details.page.scss'],
 })
 export class DispatchDetailsPage {
+  routeOptions: string = ''
+  despatcherOptions: string = ''
   showDatePicker = false;
   selectedDate: string | null = null;
   showSecondAndThirdCards = false;
   selectedRoute: string | null = null;
   selectedDespatcherIncharge: string | null = null;
+  accordionItemStates: boolean[] = [true, false, false];
+  customerData: any[] = [];
+  currentPanelIndex: number = 0;
+
 
   @ViewChild('datetimePicker') datetimePicker: any;
-  tableHeaders: string[] = ['Packet Name ', 'Weight', 'Crates', 'FGS Qty', 'FGS Crates'];
 
+  tableHeaders: string[] = ['Packet Name ', 'Weight', 'Crates', 'FGS Qty', 'FGS Crates'];
   accordionItems = [
     { value: 'customer1', label: 'Customer 1', tableData: [['TM -1000', '145.00', '13', '145.00', '13']] },
     { value: 'customer2', label: 'Customer 2', tableData: [['SHUBAM-1000', '96.00', '8', '96.00', '8']] },
     { value: 'customer3', label: 'Customer 3', tableData: [['H S M-1000', '765.00', '64', '765.00', '64']] },
-    // Add more accordion items as needed
   ];
-  routeOptions: string[] = ['BHADRAVATHI-1-101', 'SHIMOGA-1-103', 'CHITRADURGA-2-113'];
-  despatcherOptions: string[] = ['MANJAPPA KADEMANE', 'MANJUNATH.G', 'RAJU MAHADEVAPPA SAHUKAR'];
 
-  constructor(private alertController: AlertController, private modalController: ModalController) { }
+  
+  constructor(private apiService: ApiService) {
+    this.selectedDate = new Date().toISOString();
+  }
+
+  ngOnInit() {
+    this.getRoute();
+    this.getRouteIncharger();
+  }
+
+  getRoute() {
+    this.apiService.getRequest('/indent/getRoute').subscribe((sResponse) => {
+      this.routeOptions = sResponse.data.map((item: string[]) => item[1]);
+    });
+  }
+
+  getRouteIncharger() {
+    this.apiService.getRequest('/fgs/getShiftIncharge').subscribe((sResponse) => {
+      this.despatcherOptions = sResponse.data.map((item: string[]) => item[1]);
+    });
+  }
 
   saveData() {
     console.log('Save button clicked!');
@@ -37,16 +60,14 @@ export class DispatchDetailsPage {
       this.datetimePicker.open();
     }, 0);
   }
+
   closeDatePicker() {
     this.showDatePicker = false;
   }
 
   onDateSelected(event: any) {
-    // Handle the selected date here if needed
     console.log('Selected Date:', event.detail.value);
     this.selectedDate = event.detail.value;
-
-    // Close the date picker
     this.closeDatePicker();
   }
 
@@ -60,45 +81,91 @@ export class DispatchDetailsPage {
 
   loadData() {
     this.showSecondAndThirdCards = true;
+    this.customerData = [
+      {
+        customer: 'Customer 1',
+        data: [
+          ['Packet 1', '10 kg', '2', '5', '3'],
+          ['Packet 2', '15 kg', '3', '8', '4']
+        ]
+      },
+      {
+        customer: 'Customer 2',
+        data: [
+          ['Packet 3', '8 kg', '1', '3', '2'],
+          ['Packet 4', '12 kg', '2', '6', '3']
+        ]
+      },
+      {
+        customer: 'Customer 3',
+        data: [
+          ['Packet 3', '8 kg', '1', '3', '2'],
+          ['Packet 4', '12 kg', '2', '6', '3']
+        ]
+      },
+      {
+        customer: 'Customer 4',
+        data: [
+          ['Packet 3', '8 kg', '1', '3', '2'],
+          ['Packet 4', '12 kg', '2', '6', '3']
+        ]
+      },{
+        customer: 'Customer 5',
+        data: [
+          ['Packet 3', '8 kg', '1', '3', '2'],
+          ['Packet 4', '12 kg', '2', '6', '3']
+        ]
+      },
+    ];
   }
 
   isAccordionItemOpen(index: number): boolean {
     return this.accordionItemStates[index];
   }
 
-// Assuming the first accordion is initially open
-// Assuming the first accordion is initially open
-accordionItemStates: boolean[] = [true, false, false];
-
-toggleAccordionItem(index: number) {
-  // Close all accordions
-  this.accordionItemStates = this.accordionItemStates.map(() => false);
-  // Open the clicked accordion
-  this.accordionItemStates[index] = true;
-}
-
-handleAccordionAction(action: 'next' | 'prev' | 'end', index: number) {
-  switch (action) {
-    case 'next':
-      if (index < this.accordionItemStates.length - 1) {
-        this.toggleAccordionItem(index + 1);
-      }
-      break;
-    case 'prev':
-      if (index > 0) {
-        this.toggleAccordionItem(index - 1);
-      }
-      break;
-    case 'end':
-      // Close the current accordion
-      this.accordionItemStates[index] = false;
-      break;
+  toggleAccordionItem(index: number) {
+    this.accordionItemStates = this.accordionItemStates.map(() => false);
+    this.accordionItemStates[index] = true;
   }
-}
 
-isLastAccordionItem(index: number): boolean {
-  return index === this.accordionItemStates.length - 1;
-}
+  handleAccordionAction(action: 'next' | 'prev' | 'end', index: number) {
+    switch (action) {
+      case 'next':
+        if (index < this.accordionItemStates.length - 1) {
+          this.toggleAccordionItem(index + 1);
+        }
+        break;
+      case 'prev':
+        if (index > 0) {
+          this.toggleAccordionItem(index - 1);
+        }
+        break;
+      case 'end':
+        this.accordionItemStates[index] = false;
+        break;
+    }
+  }
 
+  isLastAccordionItem(index: number): boolean {
+    return index === this.accordionItemStates.length - 1;
+  }
+  setPanelIndex(index: number) {
+    this.currentPanelIndex = index;
+  }
 
+  nextPanel() {
+    if (this.currentPanelIndex < this.customerData.length) {
+      this.currentPanelIndex++;
+    }
+  }
+
+  prevPanel() {
+    if (this.currentPanelIndex > 0) {
+      this.currentPanelIndex--;
+    }
+  }
+
+  navigateEnd() {
+    this.currentPanelIndex = -1;
+  }
 }

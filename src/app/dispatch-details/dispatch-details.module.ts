@@ -7,12 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { DispatchDetailsPageRoutingModule } from './dispatch-details-routing.module';
 
 import { DispatchDetailsPage } from './dispatch-details.page';
+import { MaterialModule } from '../material/material.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    MaterialModule,
     DispatchDetailsPageRoutingModule
   ],
   declarations: [DispatchDetailsPage]

@@ -1,0 +1,22 @@
+<ion-content class="ion-padding">
+  <div class="login-card">
+    <form  [formGroup]="loginForm" (ngSubmit)="submitLoginForm()">
+      <ion-item>
+        <ion-label position="floating">User name/Mobile number</ion-label>
+        <ion-input type="mobile" name="mobile" formControlName="mobile" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Password</ion-label>
+        <ion-input type="password" name="password" formControlName="password" required></ion-input>
+      </ion-item>
+
+      <ion-button expand="full" type="submit">Login</ion-button>
+    </form>
+
+    <div class="ion-text-center">
+      <p>Don't have an account? <a routerLink="/signup">Sign up</a></p>
+      <p><a routerLink="/forgot-pwd">Forgot password?</a></p>
+    </div>
+  </div>
+</ion-content>

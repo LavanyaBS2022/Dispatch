@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Forgot Password
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card *ngIf="!showVerifyCard">
+    <ion-card-header>
+      <ion-card-title>Reset Your Password</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="floating">Phone Number</ion-label>
+        <ion-input type="tel" [(ngModel)]="phoneNumber"></ion-input>
+      </ion-item>
+
+      <ion-button expand="full" color="primary" (click)="sendOTP()" [disabled]="isButtonDisabled">
+        Send OTP
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="showVerifyCard">
+    <ion-card-header>
+      <ion-card-title>Verify OTP</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="floating">OTP Code</ion-label>
+        <ion-input type="tel" [(ngModel)]="otpCode"></ion-input>
+      </ion-item>
+
+      <ion-button expand="full" color="primary" (click)="verifyOTP()">Verify</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

@@ -1,0 +1,15 @@
+// src/global.scss
+
+.forgot-pwd {
+    ion-content {
+      background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('../../assets/icon/dispatch.png') no-repeat center center fixed;
+      background-size: cover;
+      height: 100vh;
+    }
+  
+    .background-card {
+      background: rgba(255, 255, 255, 0.8); // Adjust the background color and opacity as needed
+      z-index: 2; // Ensure the card is above the background image
+    }
+  }
+  

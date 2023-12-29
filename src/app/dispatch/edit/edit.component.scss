@@ -1,0 +1,63 @@
+/* edit.component.scss */
+
+ion-content {
+    --background: #f4f4f4;
+  }
+  
+  form {
+    padding: 20px;
+    max-width: 400px; /* Set a maximum width for the form */
+    margin: auto; /* Center the form horizontally */
+  }
+  
+  ion-item {
+    margin-bottom: 15px;
+  }
+  
+  ion-label {
+    font-weight: bold;
+  }
+  
+  ion-input {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  ion-button {
+    margin-top: 20px;
+    --background: #3880ff;
+    --color: #fff;
+  }
+  
+  /* Make the dialog box appear centered on the screen */
+  @media (max-width: 480px) {
+    form {
+      max-width: 90%;
+    }
+  }
+
+  /* Global styles or edit.component.scss */
+
+.custom-dialog {
+  max-width: 80%;
+  width: 400px; /* Set your desired width */
+  height: auto; /* Auto height or set your desired height */
+  margin: auto;
+}
+
+/* Adjust the width and height for smaller screens (e.g., mobile devices) */
+@media (max-width: 767px) {
+  .custom-dialog {
+    max-width: 90%; /* Adjust as needed for smaller screens */
+    width: 100%; /* Full width on smaller screens */
+    height: auto; /* Auto height or set your desired height */
+  }
+}
+
+  
+
+  
+  

@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Login with OTP
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label position="floating">Enter your username</ion-label>
+    <ion-input [(ngModel)]="username" type="text"></ion-input>
+  </ion-item>
+
+  <ion-button expand="full" (click)="requestOTP()">Get OTP</ion-button>
+
+  <ion-item>
+    <ion-label position="floating">Enter OTP</ion-label>
+    <ion-input [(ngModel)]="otp" type="text"></ion-input>
+  </ion-item>
+
+  <ion-button expand="full" (click)="verifyOTP(otp)">Verify OTP</ion-button>
+
+  <ion-row>
+    <ion-col>
+      <ion-text color="danger">{{ message }}</ion-text>
+    </ion-col>
+  </ion-row>
+</ion-content>

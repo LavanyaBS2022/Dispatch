@@ -1,10 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { AlertController, ModalController } from '@ionic/angular';
-import { HostListener } from '@angular/core';
-import { Dialog } from '@capacitor/dialog';
-import { FolderPage } from '../folder/folder.page';
-
-
+import { Component, ViewChild } from '@angular/core';
+import { DatetimeCustomEvent, ModalController } from '@ionic/angular';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { EditComponent } from './edit/edit.component';
+import { ApiService } from '../shared/services/api.service';
 
 @Component({
   selector: 'app-dispatch',
@@ -12,95 +10,110 @@ import { FolderPage } from '../folder/folder.page';
   styleUrls: ['./dispatch.page.scss'],
 })
 export class DispatchPage {
-
+  routeOptions:string=''
+  despatcherOptions: string=''
   showDatePicker = false;
-  selectedDate: string | null = null; 
+  selectedDate: string = '';
   showSecondAndThirdCards = false;
-  selectedRoute: string | null = null;
+  selectedRoute: { route: string, index: number } | null = null;
   selectedDespatcherIncharge: string | null = null;
   focusedRowIndex: number | null = null;
-focusedColIndex: number | null = null;
+  focusedColIndex: number | null = null;
+  packetsData: any[] = [];
 
   @ViewChild('datetimePicker') datetimePicker: any;
 
- tableHeaders: string[] = ['Packet Name ', 'Weight', 'Crates', 'FGS Qty','FGS Crates','Edit'];
+  tableHeaders: string[] = ['Packet Name','Weight','Crates','FGS Qty','FGS Crates','Edit'];
 
- tableData: string[][] = [
-   ['TM -1000', '145.00', '13', '145.00', '13',''],
-   ['TM 510ML', '180.54', '15', '180.54', '15',''],
-   ['SHUBAM-1000', '96.00', '8', '96.00', '8',''],
-   ['SHUBAM 510ML', '23.46', '2', '23.46', '2',''],
-   ['H S M-1000', '765.00', '64', '765.00', '64',''],
- ];
-
- routeOptions: string[] = ['BHADRAVATHI-1-101', 'SHIMOGA-1-103', 'CHITRADURGA-2-113'];
- despatcherOptions: string[] = ['MANJAPPA KADEMANE', 'MANJUNATH.G', 'RAJU MAHADEVAPPA SAHUKAR'];
-
-  constructor(private alertController:AlertController,private modalController: ModalController) {
+ constructor(private modalController: ModalController,private apiService:ApiService,private spinner: NgxSpinnerService                                                                                                                                     ) {
     this.selectedDate = new Date().toISOString();
   }
+  
+  ngOnInit() {
+    this.getRoute();
+    this.getRouteIncharger();
+  }
 
-  saveData() {
-    console.log('Save button clicked!'); 
+  getRoute() {
+    this.apiService.getRequest('/indent/getRoute').subscribe((sResponse) => {
+      this.routeOptions = sResponse.data.map((item: any[]) => item[1]);
+    });
+  }
+
+  getRouteIncharger() {
+    this.apiService.getRequest('/fgs/getShiftIncharge').subscribe((sResponse) => {
+      this.despatcherOptions = sResponse.data.map((item: any[]) => item[1]);
+    });
+  }
+ 
+  
+  formatDate(date: string | Date): string {
+    if (typeof date === 'string') {
+      date = new Date(date);
+    }
+    return date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: '2-digit' }) || '';
+  }
+
+  onDateSelected(event: any) {
+    console.log('Selected Date:', event.detail.value);
+    this.selectedDate = event.detail.value;
+    this.closeDatePicker();
   }
 
   openDatePicker() {
     this.showDatePicker = true;
     setTimeout(() => {
       this.datetimePicker.open();
-    }, 0);  }
-    closeDatePicker() {
-      this.showDatePicker = false;
-    }
+    }, 0);
+  }
   
-    onDateSelected(event: any) {
-      // Handle the selected date here if needed
-      console.log('Selected Date:', event.detail.value);
-      this.selectedDate = event.detail.value;
+  closeDatePicker() {
+    this.showDatePicker = false;
+  }
+       
+  async openEditModal(rowData: any,tableHeaders:any) {
+    const modal = await this.modalController.create({
+      component: EditComponent,
+      componentProps: {
+        rowData: rowData,
+        tableHeaders:tableHeaders
+      },
+    });
+    console.log('rowData', rowData)
+    await modal.present();
+  }
 
-      // Close the date picker
-      this.closeDatePicker();
-    }
-     
-    allFieldsFilled(): boolean {
-      return (
-        this.selectedDate !== null &&
-        this.selectedRoute !== null &&
-        this.selectedDespatcherIncharge !== null
-      );
-    }
-  
-    loadData() {
-      this.showSecondAndThirdCards = true;
-    }
+  saveData() {
+    console.log('Save button clicked!');
+  }
+                                                                                                                                                                                                                                                                                                             
+  allFieldsFilled(): boolean {
+    return (
+      this.selectedDate !== null &&
+      this.selectedRoute !== null &&
+      this.selectedDespatcherIncharge !== null
+    );
+  }
 
-    // onInputFocus(rowIndex: number, colIndex: number) {
-    //   this.focusedRowIndex = rowIndex;
-    //   this.focusedColIndex = colIndex;
-    // }
-    
-    // onInputBlur() {
-    //   this.focusedRowIndex = null;
-    //   this.focusedColIndex = null;
-    // }
-    
-    @HostListener('document:keydown', ['$event'])
-    handleKeyboardEvent(event: KeyboardEvent) {
-      if (this.focusedRowIndex !== null && this.focusedColIndex !== null) {
-        // Handle keyboard events only if an input is focused
-        // You can use this.focusedRowIndex and this.focusedColIndex here
-      }
-    }  
-  
-    async editRow(rowIndex: number) {
-      const modal = await this.modalController.create({
-        component: FolderPage, // Replace with the actual component for your edit popup
-        componentProps: {
-          rowData: this.tableData[rowIndex], // Pass the data of the clicked row to the popup
-        },
-      });
-  
-      await modal.present();
-    }
+  getTableHeaders(data: any[]): string[] {
+    return data.length > 0 ? Object.keys(data[0]) : [];
+  }
 
+  getDisplayedKeys(): string[] {
+    return ['packetName', 'totalWeight', 'totalCrates', 'fgsTotalQty', 'fgsTotalCrates'];
+    // return ['packetName', 'totalWeight', 'totalCrates', 'fgsTotalQty', 'fgsTotalCrates', 'editStatus'];
+
+  }
+  
+  loadData(routeCode:number=0,gpDate:string) {
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 2000); 
+    this.showSecondAndThirdCards = true;
+    this.apiService.getRouteDispatchItems('/fgs/getRouteDispatchItemsNew',routeCode,gpDate).subscribe((sResponse) => {
+      this.packetsData = sResponse.data[0].packets;
+    });
+  }
+            
 }

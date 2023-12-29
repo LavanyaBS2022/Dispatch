@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Sign Up
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card class="signup-card">
+    <ion-card-content>
+      <form #signupForm="ngForm">
+        <ion-list>
+          <ion-item>
+            <ion-label position="floating">User Name</ion-label>
+            <ion-input [(ngModel)]="userName" name="userName" [ngModelOptions]="{standalone: true}" required></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Email</ion-label>
+            <ion-input [(ngModel)]="email" name="email" type="email" [ngModelOptions]="{standalone: true}" required></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Phone Number</ion-label>
+            <ion-input [(ngModel)]="phoneNumber" name="phoneNumber" type="tel" [ngModelOptions]="{standalone: true}" required></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Password</ion-label>
+            <ion-input [(ngModel)]="password" name="password" type="password" [ngModelOptions]="{standalone: true}" required></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Confirm Password</ion-label>
+            <ion-input [(ngModel)]="confirmPassword" name="confirmPassword" type="password" [ngModelOptions]="{standalone: true}" required></ion-input>
+          </ion-item>
+        </ion-list>
+
+        <ion-button expand="full" (click)="signUp()" [disabled]="!signupForm.valid">Sign Up</ion-button>
+      </form>
+
+      <div class="ion-text-center ion-padding">
+        <p>Already have an account? <a routerLink="/login">Log In</a></p>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
