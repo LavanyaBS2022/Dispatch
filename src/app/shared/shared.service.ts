@@ -5,11 +5,18 @@ import { Injectable } from '@angular/core';
 })
 export class SharedService {
   // private token: string | string[] | null = null;
- Token= "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6eyJpZCI6NTQsIm5hbWUiOiJIZWVuYSBTaGltb2dhIiwiZW1haWwiOiJoZWVuYS5rb3VzYXJAY2FyaXRvcnNvbHV0aW9ucy5pbiIsIm1vYmlsZSI6MTIzNDU2Nzg5MCwicm9sZUlkIjoyfSwiaWF0IjoxNzAzNzQ2MTgzLCJleHAiOjE3MDM4MzI1ODN9.x-l2l4qa5oJCBu5hdQXbDYGdb6zZXDz7XJ4ajgT1Jrc";
- private token = null;
-  constructor() {}
-
-  public setToken(token:any) {
+  Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6eyJpZCI6NTQsIm5hbWUiOiJIZWVuYSBTaGltb2dhIiwiZW1haWwiOiJoZWVuYS5rb3VzYXJAY2FyaXRvcnNvbHV0aW9ucy5pbiIsIm1vYmlsZSI6MTIzNDU2Nzg5MCwicm9sZUlkIjoyfSwiaWF0IjoxNzA1OTgzNzAyLCJleHAiOjE3MDYwNzAxMDJ9.YXMEWro2U4_-7mA51WMrxWDx7dTEU01eMovxftt6knc";
+  private token = null;
+  private name = null;
+  constructor() { }
+  public setName(name: any) {
+    this.name = name;
+    sessionStorage.setItem("name", name);
+  }
+  public getName() {
+    return sessionStorage.getItem("name");
+  }
+  public setToken(token: any) {
     this.token = token;
     sessionStorage.setItem("token", token);
   }

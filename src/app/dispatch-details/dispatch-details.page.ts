@@ -21,11 +21,11 @@ export class DispatchDetailsPage {
 
   @ViewChild('datetimePicker') datetimePicker: any;
 
-  tableHeaders: string[] = ['Packet Name ', 'Weight', 'Crates', 'FGS Qty', 'FGS Crates'];
+  tableHeaders: string[] = ['Item', 'qty', 'Crates','Ltr/Kg'];
   accordionItems = [
-    { value: 'customer1', label: 'Customer 1', tableData: [['TM -1000', '145.00', '13', '145.00', '13']] },
-    { value: 'customer2', label: 'Customer 2', tableData: [['SHUBAM-1000', '96.00', '8', '96.00', '8']] },
-    { value: 'customer3', label: 'Customer 3', tableData: [['H S M-1000', '765.00', '64', '765.00', '64']] },
+    { value: 'customer1', label: 'Customer 1', tableData: [['TM -1000', '145.00', '13', '13']] },
+    { value: 'customer2', label: 'Customer 2', tableData: [['SHUBAM-1000', '96.00', '8', '8']] },
+    { value: 'customer3', label: 'Customer 3', tableData: [['H S M-1000', '765.00', '64', '64']] },
   ];
 
   
@@ -85,35 +85,35 @@ export class DispatchDetailsPage {
       {
         customer: 'Customer 1',
         data: [
-          ['Packet 1', '10 kg', '2', '5', '3'],
-          ['Packet 2', '15 kg', '3', '8', '4']
+          ['Packet 1', '10 kg', '3'],
+          ['Packet 2', '15 kg', '4']
         ]
       },
       {
         customer: 'Customer 2',
         data: [
-          ['Packet 3', '8 kg', '1', '3', '2'],
-          ['Packet 4', '12 kg', '2', '6', '3']
+          ['Packet 3', '8 kg', '1', '2'],
+          ['Packet 4', '12 kg', '2', '3']
         ]
       },
       {
         customer: 'Customer 3',
         data: [
-          ['Packet 3', '8 kg', '1', '3', '2'],
-          ['Packet 4', '12 kg', '2', '6', '3']
+          ['Packet 3', '8 kg', '1', '2'],
+          ['Packet 4', '12 kg', '2', '3']
         ]
       },
       {
         customer: 'Customer 4',
         data: [
-          ['Packet 3', '8 kg', '1', '3', '2'],
-          ['Packet 4', '12 kg', '2', '6', '3']
+          ['Packet 3', '8 kg', '1', '2'],
+          ['Packet 4', '12 kg', '2', '3']
         ]
       },{
         customer: 'Customer 5',
         data: [
-          ['Packet 3', '8 kg', '1', '3', '2'],
-          ['Packet 4', '12 kg', '2', '6', '3']
+          ['Packet 3', '8 kg', '1', '2'],
+          ['Packet 4', '12 kg', '2', '3']
         ]
       },
     ];
@@ -163,7 +163,7 @@ export class DispatchDetailsPage {
     if (this.currentPanelIndex > 0) {
       this.currentPanelIndex--;
     }
-  }
+  } 
 
   navigateEnd() {
     this.currentPanelIndex = -1;

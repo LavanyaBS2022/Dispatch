@@ -1,0 +1,49 @@
+<!-- <ion-content>
+  <ion-item>
+    <ion-label position="stacked">CAPTCHA</ion-label>
+    <ion-input [(ngModel)]="captcha" placeholder="Enter CAPTCHA"></ion-input>
+  </ion-item>
+
+  <re-captcha (onReset)="refreshCaptcha()"></re-captcha>
+
+  <ion-button (click)="refreshCaptcha()">Refresh CAPTCHA</ion-button>
+
+  <ion-button expand="full" (click)="validateCaptcha()">Submit</ion-button>
+</ion-content> -->
+
+<!-- app.component.html -->
+
+<ion-card class="captcha-card">
+  <ion-card-header>
+    <ion-card-title>Captcha Verification</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    <ion-item>
+      <ion-label position="stacked">Generated CAPTCHA</ion-label>
+      <ion-input [(ngModel)]="generatedCaptcha" placeholder="Generated CAPTCHA" disabled></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Enter CAPTCHA</ion-label>
+      <re-captcha [(ngModel)]="userEnteredCaptcha" siteKey="6LffhT4pAAAAAAW7JEEotIQEy3BDrt_iZCvv6AqJ"></re-captcha>
+    </ion-item>
+
+    <ion-item>
+      <ion-button (click)="refreshCaptcha()">Refresh CAPTCHA</ion-button>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Verify CAPTCHA</ion-label>
+      <ion-input [(ngModel)]="userEnteredCaptcha" placeholder="Enter CAPTCHA"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-button (click)="verifyCaptcha()" expand="full">Verify</ion-button>
+    </ion-item>
+
+    <ion-item *ngIf="verificationResult !== undefined">
+      <p class="result-message">{{ verificationResult }}</p>
+    </ion-item>
+  </ion-card-content>
+</ion-card>

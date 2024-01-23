@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MenuController } from '@ionic/angular';
+import { SharedService } from '../shared.service';
 
 
 @Component({
@@ -8,8 +9,10 @@ import { MenuController } from '@ionic/angular';
   styleUrls: ['./sidenav.page.scss'],
 })
 export class SidenavPage {
-
-  constructor(private menuController: MenuController) { }
+name:any
+  constructor(private menuController: MenuController,private sharedService:SharedService) {
+    this.name=sharedService.getName();
+   }
 
   closeMenu() {
     this.menuController.close();

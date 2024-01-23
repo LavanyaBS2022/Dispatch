@@ -11,6 +11,7 @@ import { SharedService } from '../shared/shared.service';
 })
 export class LoginPage {
   token:any;
+  name:any;
   loginForm!: FormGroup<any>;
 
   constructor(private fb: FormBuilder,private router: Router,private apiService: ApiService,private sharedService:SharedService) {
@@ -26,7 +27,8 @@ export class LoginPage {
       (response: any) => {
         if (response.status === true) {
           this.router.navigate(['/dispatch']);
-            this.sharedService.setToken(response.data.token);  
+            this.sharedService.setToken(response.data.token); 
+            this.sharedService.setName(response.data.name) ;
         } else {
           console.log('Login unsuccessful:', response);
           

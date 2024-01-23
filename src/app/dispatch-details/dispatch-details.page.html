@@ -52,43 +52,7 @@
         </ion-col>
       </ion-row>
 
-      <ion-row class="second-third-cards" *ngIf="showSecondAndThirdCards">
-        <ion-col size-lg="12" size-md="12" size-sm="12" size-xs="12">
-          <ion-card>
-            <ion-card-content>
-              <!-- <ion-accordion-group>
-                <ng-container *ngFor="let accordionItem of accordionItems; let i = index; last as isLast">
-                  <ion-accordion [value]="accordionItem.value">
-                    <ion-item slot="header" color="light" (click)="toggleAccordionItem(i)" button>
-                      <ion-label>{{ accordionItem.label }}</ion-label>
-                    </ion-item>
-                    <ion-item *ngIf="isAccordionItemOpen(i)" slot="content">
-                      <ion-grid>
-                        <ion-row class="table">
-                          <ion-col *ngFor="let header of tableHeaders">{{ header }}</ion-col>
-                        </ion-row>
-                        <ion-row class="table" *ngFor="let row of accordionItem.tableData">
-                          <ion-col *ngFor="let cell of row">{{ cell }}</ion-col>
-                        </ion-row>
-                        <ion-row class="buttons-container">
-                          <ion-col>
-                            <ion-button (click)="handleAccordionAction('prev', i)" *ngIf="i > 0">Prev</ion-button>
-                          </ion-col>
-                          <ion-col>
-                            <ion-button (click)="handleAccordionAction('next', i)" *ngIf="!isLastAccordionItem(i)">Next</ion-button>
-                          </ion-col>
-                          <ion-col>
-                            <ion-button (click)="handleAccordionAction('end', i)" *ngIf="!isLastAccordionItem(i)">End</ion-button>
-                          </ion-col>
-                        </ion-row>
-                      </ion-grid>
-                    </ion-item>
-                    
-                  </ion-accordion>
-                </ng-container>
-              </ion-accordion-group> -->
-            <!-- ... existing code ... -->
-
+      <ion-row class="second-card" *ngIf="showSecondAndThirdCards">
             <mat-accordion class="example-headers-align">
               <div *ngFor="let customer of customerData; let i = index">
                 <mat-expansion-panel [expanded]="i === currentPanelIndex" (opened)="setPanelIndex(i)" hideToggle>
@@ -119,10 +83,6 @@
             </mat-accordion>
             
               
-              
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
       </ion-row>
       
     </ion-grid>

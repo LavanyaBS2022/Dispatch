@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { DispatchDetailsPage } from './dispatch-details/dispatch-details.page';
-import { DispatchPage } from './dispatch/dispatch.page';
 import { SidenavPage } from './shared/sidenav/sidenav.page';
 import { AuthGuard } from './shared/authGuard/auth.guard';
 import { AppComponent } from './app.component';
@@ -39,6 +37,10 @@ const routes: Routes = [
   {
     path: 'reset-password',
     loadChildren: () => import('./reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
+  },
+  {
+    path: 'dummy',
+    loadChildren: () => import('./dummy/dummy.module').then( m => m.DummyPageModule)
   }
 ];
 
