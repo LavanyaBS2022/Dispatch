@@ -23,7 +23,7 @@ export class LoginPage {
   
   submitLoginForm() {
     let postData = JSON.parse(JSON.stringify(this.loginForm.value));
-    this.apiService.postLoginRequest('/login/authenticateMobile', postData).subscribe(
+    this.apiService.postAuthentication('/login/authenticateMobile', postData).subscribe(
       (response: any) => {
         if (response.status === true) {
           this.router.navigate(['/dispatch']);

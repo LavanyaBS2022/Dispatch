@@ -17,7 +17,7 @@ export class ApiService {
   constructor(private http: HttpClient,private sharedService: SharedService,private spinner: NgxSpinnerService) {
   }
 
-  postLoginRequest(url: string, body: {}): Observable<any> {
+  postAuthentication(url: string, body: {}): Observable<any> {
     this.spinner.show();
     setTimeout(() => {
       this.spinner.hide();
@@ -45,6 +45,10 @@ export class ApiService {
     let value = this.http.get(`${this.rootURL_shimul}${url}`,{headers,params});
     return value;
    }
+
+
+
+
 
   //  getRequest(url: string): Observable<any> {
   //   this.spinner.show();
