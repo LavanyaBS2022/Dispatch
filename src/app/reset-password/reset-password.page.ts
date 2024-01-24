@@ -26,37 +26,39 @@ export class ResetPasswordPage {
           this.mobileNumber = params['mobile'];
         });
       }
-  async submitReset() {
-    debugger
-    if (this.pwd === this.confirmPassword) {
-      console.log('Password reset successful!');
-      await this.presentSuccessAlert();
-    } else {
-      console.error('Passwords do not match');
-      await this.presentAlert('Error', 'Passwords do not match');
-    }
-    const requestBody = {
-      mobile: this.mobileNumber,
-      pwd: this.pwd
-    };
-    try {
-      const response = await this.apiService.postAuthentication('/login/password', requestBody).toPromise();
-     console.log("response",response)
-      if (response.status === true) {
-        this.router.navigate(['/reset-password']);
-      } else {
-        const alert = await this.alertController.create({
-          header: 'Error',
-          message: 'Incorrect OTP',
-          buttons: ['OK'],
-        });
-        await alert.present();
-      }
-    } catch (error) {
-      console.error('Error validating OTP:', error);
-    }
-  }
 
+      async submitReset() {
+        debugger;
+        if (this.pwd !== this.confirmPassword) {
+          console.error('Passwords do not match');
+          await this.presentAlert('Error', 'Passwords do not match');
+          return;
+        }
+      
+        const requestBody = {
+          mobile: this.mobileNumber,
+          pwd: this.pwd
+        };
+      
+        try {
+          const response = await this.apiService.postAuthentication('/login/password', requestBody).toPromise();
+          console.log("response", response);
+      
+          if (response.status === true) {
+            this.router.navigate(['/reset-password']);
+          } else {
+            const alert = await this.alertController.create({
+              header: 'Error',
+              message: 'Incorrect OTP',
+              buttons: ['OK'],
+            });
+            await alert.present();
+          }
+        } catch (error) {
+          console.error('Error validating OTP:', error);
+        }
+      }
+      
   async presentSuccessAlert() {
     const alert = await this.alertController.create({
       header: 'Password Updated',
@@ -84,27 +86,5 @@ export class ResetPasswordPage {
     await alert.present();
   }
 
-  async verifyOTP() {
-    debugger
-    const requestBody = {
-      mobile: this.mobileNumber,
-      pwd: this.pwd
-    };
-    try {
-      const response = await this.apiService.postAuthentication('/login/validateOtp', requestBody).toPromise();
 
-      if (response.status === true) {
-        this.router.navigate(['/reset-password']);
-      } else {
-        const alert = await this.alertController.create({
-          header: 'Error',
-          message: 'Incorrect OTP',
-          buttons: ['OK'],
-        });
-        await alert.present();
-      }
-    } catch (error) {
-      console.error('Error validating OTP:', error);
-    }
-  }
 }
