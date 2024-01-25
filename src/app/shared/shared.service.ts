@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class SharedService {
   // private token: string | string[] | null = null;
-  Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6eyJpZCI6NTQsIm5hbWUiOiJIZWVuYSBTaGltb2dhIiwiZW1haWwiOiJoZWVuYS5rb3VzYXJAY2FyaXRvcnNvbHV0aW9ucy5pbiIsIm1vYmlsZSI6MTIzNDU2Nzg5MCwicm9sZUlkIjoyfSwiaWF0IjoxNzA2MDczNzQyLCJleHAiOjE3MDYxNjAxNDJ9.BU1xeb97w7IXERz7_d5gIFan7VmRFQ5cNBv2_ozPX_s";
+  Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6eyJpZCI6MTcyMCwibmFtZSI6IkFOQU5EIEtVTUFSIEcgKFMxNTk0KSIsIm1vYmlsZSI6NzQ4MzA5MjkyNSwicm9sZUlkIjoxLCJjb19jb2RlIjozfSwiaWF0IjoxNzA2MTgxNDQwLCJleHAiOjE3MDYyNjc4NDB9.mZOeCbzyxkWV1N5mC5fjbaUEOLtjULZr62iF4M7Y97A";
   private token = null;
   private name = null;
   constructor() { }

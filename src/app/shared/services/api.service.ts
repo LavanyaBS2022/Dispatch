@@ -47,6 +47,12 @@ export class ApiService {
    }
 
 
+   getRequestbyParams(url: string, pDate: string, route_code: number): Observable<any> {
+    const headers = new HttpHeaders().set('Authorization', this.sharedService.Token)
+    let params = new HttpParams().set("pDate", pDate).set("route_code", route_code);
+    let value = this.http.get(`${this.rootUrl}${url}`, { headers, params });
+    return value;
+  }
 
 
 

@@ -45,7 +45,8 @@ export class ResetPasswordPage {
           console.log("response", response);
       
           if (response.status === true) {
-            this.router.navigate(['/reset-password']);
+            // Password updated successfully
+            await this.presentSuccessAlert();
           } else {
             const alert = await this.alertController.create({
               header: 'Error',
@@ -59,23 +60,23 @@ export class ResetPasswordPage {
         }
       }
       
-  async presentSuccessAlert() {
-    const alert = await this.alertController.create({
-      header: 'Password Updated',
-      message: 'Password updated successfully!',
-      buttons: [
-        {
-          text: 'OK',
-          handler: () => {
-            this.router.navigate(['/login']);
-          },
-        },
-      ],
-    });
-
-    await alert.present();
-  }
-
+      async presentSuccessAlert() {
+        const alert = await this.alertController.create({
+          header: 'Password Updated',
+          message: 'Password updated successfully!',
+          buttons: [
+            {
+              text: 'OK',
+              handler: () => {
+                // Navigate to the login page after clicking OK
+                this.router.navigate(['/login']);
+              },
+            },
+          ],
+        });
+      
+        await alert.present();
+      }
   async presentAlert(header: string, message: string) {
     const alert = await this.alertController.create({
       header: header,

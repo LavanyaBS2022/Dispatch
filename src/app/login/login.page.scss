@@ -1,8 +1,19 @@
 ion-content {
-  --background: url('../../assets/icons/bg2.jpg') no-repeat center center fixed;
+  --background: url('../../assets/icons/bg3.jpg') no-repeat center center fixed;
   background-size: cover;
   margin: 0;
   height: 100vh;
+}
+
+.logo-container {
+  text-align: center;
+  margin-bottom: 20px; /* Adjust margin as needed */
+  margin-top: 140px;
+}
+
+.logo {
+  max-width: 250px; /* Adjust the maximum width of the logo */
+  width: 100%;
 }
 
 .login-card {
@@ -16,6 +27,7 @@ ion-content {
   border-radius: 8px;
   padding: 16px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin-top: 120px;
 }
 
 ion-button {
@@ -33,7 +45,6 @@ ion-button {
 
 a {
   color: #007BFF;
-  font-weight: bold;
 }
 
 a:hover {

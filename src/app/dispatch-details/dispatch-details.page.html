@@ -1,89 +1,85 @@
-  <ion-header>
-    <ion-toolbar>
-      <ion-title>
-        Dispatch Details
-      </ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Dispatch Details
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
 
-  <ion-content>
-    <ion-grid>
-      <ion-row class="input-row">
-        <ion-col size-lg="12" size-md="12" size-sm="12" size-xs="12">
-          <ion-card class="first-card">
-            <ion-card-header>
-              <ion-toolbar>
-                <ion-title>
-                  Dispatch Details
-                </ion-title>
-                <ion-buttons slot="end">
-                  <ion-button (click)="saveData()">Save</ion-button>
-                </ion-buttons>
-              </ion-toolbar>
-            </ion-card-header>
-            <ion-card-content class="card-content">
-                        <ion-item>
-                          {{ selectedDate | date }}
-                          <ion-icon name="calendar" slot="end" (click)="openDatePicker()"></ion-icon>
-                          <ion-datetime *ngIf="showDatePicker" [(ngModel)]="selectedDate" (ionChange)="onDateSelected($event)">
-                          </ion-datetime>
-                        </ion-item>
+<ion-content>
+  <ion-grid>
+    <ion-row class="input-row">
+      <ion-col size-lg="12" size-md="12" size-sm="12" size-xs="12">
+        <ion-card class="first-card">
+          <ion-card-header>
+            <ion-toolbar>
+              <ion-title>
+                Dispatch Details
+              </ion-title>
+              <ion-buttons slot="end">
+                <ion-button (click)="saveData()" [disabled]="!showSaveButton">Save</ion-button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-card-header>
+          <ion-card-content class="card-content">
+            <ion-item>
+              {{ selectedDate | date }}
+              <ion-icon name="calendar" slot="end" (click)="openDatePicker()"></ion-icon>
+              <ion-datetime *ngIf="showDatePicker" [(ngModel)]="selectedDate" (ionChange)="onDateSelected($event)">
+              </ion-datetime>
+            </ion-item>
 
-                        <ion-item>
-                          <ion-select class="custom-input" placeholder="Route" [(ngModel)]="selectedRoute">
-                            <ion-select-option *ngFor="let route of routeOptions" [value]="route">{{ route }}
-                            </ion-select-option>
-                          </ion-select> 
-                        </ion-item>
-            
-                        <ion-item>
-                          <ion-select class="custom-input" placeholder="Despatcher Incharge"
-                            [(ngModel)]="selectedDespatcherIncharge">
-                            <ion-select-option *ngFor="let despatcher of despatcherOptions" [value]="despatcher">
-                              {{ despatcher }}</ion-select-option>
-                          </ion-select>
-                        </ion-item>
-                        
-              <div class="ion-text-center">
-                <ion-button [disabled]="!allFieldsFilled()" (click)="loadData()">Load</ion-button>
-              </div>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-      </ion-row>
+            <ion-item>
+              <ion-select class="custom-input" placeholder="Route" [(ngModel)]="selectedRoute">
+                <ion-select-option *ngFor="let route of routeOptions" [value]="route">{{ route }}</ion-select-option>
+              </ion-select>
+            </ion-item>
 
-      <ion-row class="second-card" *ngIf="showSecondAndThirdCards">
-            <mat-accordion class="example-headers-align">
-              <div *ngFor="let customer of customerData; let i = index">
-                <mat-expansion-panel [expanded]="i === currentPanelIndex" (opened)="setPanelIndex(i)" hideToggle>
-                  <mat-expansion-panel-header>
-                    <mat-panel-title>
-                      {{ customer.customer }}
-                    </mat-panel-title>
-                  </mat-expansion-panel-header>
-                  <table>
-                    <thead>
-                      <tr>
-                        <th *ngFor="let header of tableHeaders">{{ header }}</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let row of customer.data">
-                        <td *ngFor="let cell of row">{{ cell }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <mat-action-row>
-                    <button mat-button color="warn" (click)="prevPanel()" [disabled]="i === 0">Previous</button>
-                    <button mat-button color="primary" (click)="nextPanel()" [disabled]="i === customerData.length - 1">Next</button>
-                    <button mat-button color="primary" (click)="navigateEnd()" [disabled]="i === currentPanelIndex - 1">End</button>
-                  </mat-action-row>
-                </mat-expansion-panel>
-              </div>
-            </mat-accordion>
-            
-              
-      </ion-row>
-      
-    </ion-grid>
-  </ion-content>
+            <div class="ion-text-center">
+              <ion-button [disabled]="!allFieldsFilled()" (click)="loadData()">Load</ion-button>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="second-card" *ngIf="showSecondAndThirdCards">
+      <mat-accordion class="example-headers-align">
+        <div *ngFor="let customer of customerData; let i = index">
+          <mat-expansion-panel [expanded]="isAccordionItemOpen(i)" (opened)="setPanelIndex(i)" (closed)="closeAccordion(i)">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{ customer.customer_name }}
+              </mat-panel-title>
+              <!-- Display Save button only if the accordion is open -->
+              <button mat-icon-button color="primary" *ngIf="i === currentPanelIndex" (click)="savePanelData($event, customer)">
+                <mat-icon>save</mat-icon>
+              </button>
+            </mat-expansion-panel-header>
+            <table>
+              <thead>
+                <tr>
+                  <th *ngFor="let header of tableHeaders">{{ header }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let packet of customer.packets">
+                  <td>{{ packet.packet_name }}</td>
+                  <td>{{ packet.sent_qty }}</td>
+                  <td>{{ packet.crates }}</td>
+                  <td>{{ packet.ltrs_kgs }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <mat-action-row>
+              <button mat-button color="warn" (click)="handleAccordionAction('prev', i)" [disabled]="i === 0">Previous</button>
+              <button mat-button color="primary" (click)="handleAccordionAction('next', i)" [disabled]="i === customerData.length - 1">Next</button>
+              <button mat-button color="primary" (click)="handleAccordionAction('end', i)" [disabled]="i === currentPanelIndex - 1">End</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+        </div>
+      </mat-accordion>
+    </ion-row>
+    
+  </ion-grid>
+</ion-content>

@@ -25,6 +25,19 @@ ion-header {
   .second-card{
     justify-content: center;
     align-items: center;
+    width: 100%;
+  }
+  
+  .example-headers-align {
+    max-width: 500px; /* Adjust the value based on your preference */
+    width: 90%; /* Ensure the accordion takes full width */
+    margin: 0 auto; /* Center the accordion horizontally */
+  }
+  
+  .mat-expansion-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   .custom-button {
     margin-top: 10px;
@@ -41,16 +54,7 @@ ion-header {
     text-align: left;
     background-color: #e4e5e6;
   }
-  
-  ion-row ion-item {
-    ion-label {
-      max-width: 100%;
-    }
-  
-    ion-icon {
-      margin-left: auto; 
-    }
-  }
+
 
 .buttons-container {
   margin-top: 10px; 
@@ -63,3 +67,60 @@ ion-header {
     box-sizing: border-box;
   }
 }
+/* Add this to your component's CSS file */
+
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+table th,
+table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+.table th {
+  background-color: #20a8d8;
+  color: #fff;
+}
+
+table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+table th:nth-child(1),
+table td:nth-child(1) {
+  width: 30%; /* Adjust as needed */
+}
+
+table th:nth-child(2),
+table td:nth-child(2) {
+  width: 20%; /* Adjust as needed */
+}
+
+table th:nth-child(3),
+table td:nth-child(3) {
+  width: 20%; /* Adjust as needed */
+}
+
+table th:nth-child(4),
+table td:nth-child(4) {
+  width: 30%; /* Adjust as needed */
+}
+
+@media (max-width: 576px) {
+  .table th,
+  .table td {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+

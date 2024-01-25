@@ -25,7 +25,7 @@ export class DispatchPage {
 
   tableHeaders: string[] = ['Packet Name','Weight','Crates','FGS Qty','FGS Crates','Edit'];
 
- constructor(private modalController: ModalController,private apiService:ApiService,private spinner: NgxSpinnerService                                                                                                                                     ) {
+ constructor(private modalController: ModalController,private apiService:ApiService,private spinner: NgxSpinnerService) {
     this.selectedDate = new Date().toISOString();
   }
   
