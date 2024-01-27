@@ -28,16 +28,19 @@
               <ion-datetime *ngIf="showDatePicker" [(ngModel)]="selectedDate" (ionChange)="onDateSelected($event)">
               </ion-datetime>
             </ion-item>
-
             <ion-item>
               <ion-select class="custom-input" placeholder="Route" [(ngModel)]="selectedRoute">
-                <ion-select-option *ngFor="let route of routeOptions" [value]="route">{{ route }}</ion-select-option>
+                <ion-select-option *ngFor="let route of routeOptions" [value]="route.route_code">{{ route.route_name }}</ion-select-option>
               </ion-select>
+              
             </ion-item>
+            
+              <!-- <ion-button [disabled]="!allFieldsFilled()" (click)="loadData()">Load</ion-button> -->
 
-            <div class="ion-text-center">
-              <ion-button [disabled]="!allFieldsFilled()" (click)="loadData()">Load</ion-button>
-            </div>
+              <div class="ion-text-center">
+                <ion-button [disabled]="!allFieldsFilled()" (click)="handleLoadButtonClick()">Load</ion-button>
+              </div>
+              
           </ion-card-content>
         </ion-card>
       </ion-col>

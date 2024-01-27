@@ -1,6 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { ApiService } from '../shared/services/api.service';
 import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
+interface Route {
+  route_code: string;
+  route_name: string;
+}
 
 @Component({
   selector: 'app-dispatch-details',
@@ -8,10 +12,10 @@ import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./dispatch-details.page.scss'],
 })
 export class DispatchDetailsPage {
-  routeOptions: string = '';
+  routeOptions: Route[] = [];
   despatcherOptions: string = '';
   showDatePicker = false;
-  selectedDate: string | null = null;
+  selectedDate: string ='';
   showSecondAndThirdCards = false;
   selectedRoute: string | null = null;
   selectedDespatcherIncharge: string | null = null;
@@ -35,15 +39,20 @@ export class DispatchDetailsPage {
 
   ngOnInit() {
     this.getRoute();
-    this.loadData1("26-01-24",1);
   }
 
-  getRoute() {
-    debugger
-    this.apiService.getRequest('master/route').subscribe((sResponse) => {
-      this.routeOptions = sResponse.data.map((item: string[]) => item[1]);
+getRoute() {
+  this.apiService.getRequest('/master/route').subscribe((sResponse) => {
+    this.routeOptions = sResponse.data.map((item: any) => {
+      return {
+        route_code: item.route_code,
+        route_name: item.route_name,
+      };
     });
-  }
+  });
+}
+
+
   saveData() {
     console.log('Save button clicked!');
     // Add logic to save data here
@@ -70,17 +79,22 @@ export class DispatchDetailsPage {
     return this.selectedDate !== null && this.selectedRoute !== null;
   }
 
-  loadData() {
-    this.showSecondAndThirdCards = true;
-    this.customerData = [
-      { customer: 'Customer 1', data: [['Packet 1', '10 kg', '3'], ['Packet 2', '15 kg', '4']] },
-      { customer: 'Customer 2', data: [['Packet 3', '8 kg', '1', '2'], ['Packet 4', '12 kg', '2', '3']] },
-      { customer: 'Customer 3', data: [['Packet 3', '8 kg', '1', '2'], ['Packet 4', '12 kg', '2', '3']] },
-      { customer: 'Customer 4', data: [['Packet 3', '8 kg', '1', '2'], ['Packet 4', '12 kg', '2', '3']] },
-      { customer: 'Customer 5', data: [['Packet 3', '8 kg', '1', '2'], ['Packet 4', '12 kg', '2', '3']] },
-    ];
+  // loadData() {
+  //   this.showSecondAndThirdCards = true;
+  //   this.customerData = [
+  //     { customer: 'Customer 1', data: [['Packet 1', '10 kg', '3'], ['Packet 2', '15 kg', '4']] },
+  //     { customer: 'Customer 2', data: [['Packet 3', '8 kg', '1', '2'], ['Packet 4', '12 kg', '2', '3']] },
+  //     { customer: 'Customer 3', data: [['Packet 3', '8 kg', '1', '2'], ['Packet 4', '12 kg', '2', '3']] },
+  //     { customer: 'Customer 4', data: [['Packet 3', '8 kg', '1', '2'], ['Packet 4', '12 kg', '2', '3']] },
+  //     { customer: 'Customer 5', data: [['Packet 3', '8 kg', '1', '2'], ['Packet 4', '12 kg', '2', '3']] },
+  //   ];
+  // }
+  formatDate(date: string | Date): string {
+    if (typeof date === 'string') {
+      date = new Date(date);
+    }
+    return date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: '2-digit' }) || '';
   }
-
 
   savePanelData(event: Event, customer: any) {
     event.stopPropagation();
@@ -134,7 +148,8 @@ export class DispatchDetailsPage {
     return index === this.accordionItemStates.length - 1;
   }
 
-  loadData1(pDate: string, route_code: number = 0) {
+  loadData1(pDate:string,route_code:number=0) {
+    debugger
     this.spinner.show();
     setTimeout(() => {
       this.spinner.hide();
@@ -145,5 +160,31 @@ export class DispatchDetailsPage {
       console.log("response", sResponse);
     });
   }
+  
+  loadData(pDate: string | null, route_code: number = 0) {
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 2000);
+  
+    // Handle null value for selectedDate
+    const formattedDate = pDate || '';
+  
+    this.showSecondAndThirdCards = true;
+    this.apiService.getRequestbyParams('/fgs/routeDispatchDetails', formattedDate, route_code).subscribe((sResponse) => {
+      this.customerData = sResponse.data;
+      console.log("response", sResponse);
+    });
+  }
+  
+  handleLoadButtonClick() {
+    debugger
+
+    const formattedDate = (this.formatDate(this.selectedDate) || '')!;
+    const routeCode = this.selectedRoute ? +this.selectedRoute : 0;
+  
+    this.loadData1(formattedDate, routeCode);
+  }
+  
   
 }

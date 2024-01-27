@@ -31,7 +31,7 @@ export class ApiService {
       this.spinner.hide();
     }, 2000);
     const headers = new HttpHeaders().set('Authorization', this.sharedService.Token)
-    let value = this.http.get(`${this.rootURL_shimul}${url}`, { headers });
+    let value = this.http.get(`${this.rootUrl}${url}`, { headers });
     return value;
   }
 
