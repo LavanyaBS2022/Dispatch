@@ -19,9 +19,9 @@ export class DispatchDetailsPage {
   showSecondAndThirdCards = false;
   selectedRoute: string | null = null;
   selectedDespatcherIncharge: string | null = null;
-  accordionItemStates: boolean[] = [true, false, false];
+  accordionItemStates: boolean[] = [false, false, false];
   customerData: any[] = [];
-  currentPanelIndex: number = 0;
+  currentPanelIndex: number = -1; 
   showSaveButton: boolean = false; // New flag to control save button visibility
 
   @ViewChild('datetimePicker') datetimePicker: any;
@@ -71,17 +71,6 @@ getRoute() {
   allFieldsFilled(): boolean {
     return this.selectedDate !== null && this.selectedRoute !== null;
   }
-
-  // loadData() {
-  //   this.showSecondAndThirdCards = true;
-  //   this.customerData = [
-  //     { customer: 'Customer 1', data: [['Packet 1', '10 kg', '3'], ['Packet 2', '15 kg', '4']] },
-  //     { customer: 'Customer 2', data: [['Packet 3', '8 kg', '1', '2'], ['Packet 4', '12 kg', '2', '3']] },
-  //     { customer: 'Customer 3', data: [['Packet 3', '8 kg', '1', '2'], ['Packet 4', '12 kg', '2', '3']] },
-  //     { customer: 'Customer 4', data: [['Packet 3', '8 kg', '1', '2'], ['Packet 4', '12 kg', '2', '3']] },
-  //     { customer: 'Customer 5', data: [['Packet 3', '8 kg', '1', '2'], ['Packet 4', '12 kg', '2', '3']] },
-  //   ];
-  // }
   formatDate(date: string | Date): string {
     if (typeof date === 'string') {
       date = new Date(date);
@@ -103,21 +92,11 @@ getRoute() {
   }
 
   toggleAccordionItem(index: number) {
-    // Reset all accordionItemStates to false
     this.accordionItemStates = this.accordionItemStates.map(() => false);
-    // Set the clicked accordion item state to true
     this.accordionItemStates[index] = true;
-    // Set the currentPanelIndex to the clicked index
     this.currentPanelIndex = index;
-    // Show the Save button
-    this.showSaveButton = true;
   }
 
-  closeAccordion(index: number) {
-    if (this.currentPanelIndex === index) {
-      this.currentPanelIndex = -1; // Set to a value that indicates no panel is open
-    }
-  }
 
   handleAccordionAction(action: 'next' | 'prev' | 'end', index: number) {
     switch (action) {
@@ -136,6 +115,13 @@ getRoute() {
         break;
     }
   }
+  
+  closeAccordion(index: number) {
+      this.accordionItemStates[index] = false;  
+
+    }
+  
+  
 
   isLastAccordionItem(index: number): boolean {
     return index === this.accordionItemStates.length - 1;
@@ -171,13 +157,11 @@ getRoute() {
   }
   
   handleLoadButtonClick() {
-    debugger
 
     const formattedDate = (this.formatDate(this.selectedDate) || '')!;
     const routeCode = this.selectedRoute ? +this.selectedRoute : 0;
   
     this.loadData1(formattedDate, routeCode);
   }
-  
-  
+
 }
