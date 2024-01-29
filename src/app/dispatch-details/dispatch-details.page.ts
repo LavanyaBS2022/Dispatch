@@ -34,7 +34,6 @@ export class DispatchDetailsPage {
   ngOnInit() {
     this.getRoute();
   }
-
 getRoute() {
   this.apiService.getRequest('/master/route').subscribe((sResponse) => {
     this.routeOptions = sResponse.data.map((item: any) => {

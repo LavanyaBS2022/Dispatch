@@ -124,3 +124,23 @@ table td:nth-child(4) {
   }
 }
 
+.data-cell {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.data-cell:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background-color: #f2f2f2;
+}
+.responsive-input{
+  width:55%;
+  box-sizing: border-box;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(50%, 0%);
+}

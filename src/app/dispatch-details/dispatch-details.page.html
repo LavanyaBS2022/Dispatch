@@ -65,14 +65,51 @@
                   <th *ngFor="let header of tableHeaders">{{ header }}</th>
                 </tr>
               </thead>
-              <tbody>
+              <!-- <tbody>
                 <tr *ngFor="let packet of customer.packets">
                   <td>{{ packet.packet_name }}</td>
-                  <td>{{ packet.sent_qty }}</td>
-                  <td>{{ packet.crates }}</td>
+                  <div class="responsive-input">   
+                   <td  ><ion-input label="{{ packet.sent_qty }}"  class="data-cell"></ion-input></td>
+                  </div> -->
+                  <!-- <td>{{ packet.sent_qty }}</td> -->
+                  <!-- <td>{{ packet.crates }}</td>
+                  <td>{{ packet.ltrs_kgs }}</td>
+                </tr>
+              </tbody> -->
+              <!-- <tbody>
+                <tr *ngFor="let packet of customer.packets let colIndex = index">
+                  <td>{{ packet.packet_name }}</td>
+                  <ng-container *ngFor="let packet of customer.packets; let colIndex = index">
+                    <ng-container *ngIf="colIndex !== 1 && colIndex !== 2">
+                      <td>        
+                          <ion-input [(ngModel)]="packet.sent_qty" class="data-cell"></ion-input>
+                      </td>
+                    </ng-container>
+                    <ng-container *ngIf="colIndex === 1 || colIndex === 2">
+                      <td>
+                          <ion-input [(ngModel)]="packet.crates" class="data-cell"></ion-input>
+                      </td>
+                    </ng-container>
+                  </ng-container>
+                  <td>{{ packet.ltrs_kgs }}</td>
+                </tr>
+              </tbody>               -->
+
+              <tbody>
+                <tr *ngFor="let packet of customer.packets; let rowIndex = index">
+                  <td>{{ packet.packet_name }}</td>
+                  <td>
+                    <ion-input [(ngModel)]="packet.sent_qty" class="data-cell"></ion-input>
+                  </td>
+                  <td>
+                    <ion-input [(ngModel)]="packet.crates" class="data-cell"></ion-input>
+                  </td>
                   <td>{{ packet.ltrs_kgs }}</td>
                 </tr>
               </tbody>
+              
+              
+              
             </table>
             <mat-action-row>
               <button mat-button color="warn" (click)="handleAccordionAction('prev', i)" [disabled]="i === 0">Previous</button>
