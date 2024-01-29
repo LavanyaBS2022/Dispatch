@@ -30,9 +30,9 @@ export class ApiService {
     setTimeout(() => {
       this.spinner.hide();
     }, 2000);
-    const headers = new HttpHeaders().set('Authorization', this.sharedService.Token)
-    let value = this.http.get(`${this.rootUrl}${url}`, { headers });
-    return value;
+    const token = this.sharedService.getToken();
+    const headers = new HttpHeaders().set('Authorization', token ? token : '');
+    return this.http.get(`${this.rootUrl}${url}`, { headers });
   }
 
   getRouteDispatchItems(url:string,routeCode:number,gpDate:string): Observable<any> {
@@ -40,7 +40,8 @@ export class ApiService {
     setTimeout(() => {
       this.spinner.hide();
     }, 2000);    
-    const headers = new HttpHeaders().set('Authorization', this.sharedService.Token)
+    const token = this.sharedService.getToken();
+    const headers = new HttpHeaders().set('Authorization', token ? token : '')
     let params =new HttpParams().set("routeCode",routeCode).set("gpDate",gpDate);
     let value = this.http.get(`${this.rootURL_shimul}${url}`,{headers,params});
     return value;
@@ -48,37 +49,18 @@ export class ApiService {
 
 
    getRequestbyParams(url: string, pDate: string, route_code: number): Observable<any> {
-    const headers = new HttpHeaders().set('Authorization', this.sharedService.Token)
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 2000);    
+    const token = this.sharedService.getToken();
+    const headers = new HttpHeaders().set('Authorization',  token ? token : '')
     let params = new HttpParams().set("pDate", pDate).set("route_code", route_code);
     let value = this.http.get(`${this.rootUrl}${url}`, { headers, params });
     return value;
   }
 
 
-
-  //  getRequest(url: string): Observable<any> {
-  //   this.spinner.show();
-  //   setTimeout(() => {
-  //     this.spinner.hide();
-  //   }, 2000);
-  //   const token = this.sharedService.getToken() || '';
-  //   const headers = new HttpHeaders().set('Authorization', token);
-  //   let value = this.http.get(`${this.rootURL_shimul}${url}`, { headers });
-  //   return value;
-  // }
-
-
-  // getRouteDispatchItems(url:string,routeCode:number,gpDate:string): Observable<any> {
-  //   this.spinner.show();
-  //   setTimeout(() => {
-  //     this.spinner.hide();
-  //   }, 2000);    
-  //   const token = this.sharedService.getToken() || '';
-  //   const headers = new HttpHeaders().set('Authorization', token);
-  //   let params =new HttpParams().set("routeCode",routeCode).set("gpDate",gpDate);
-  //   let value = this.http.get(`${this.rootURL_shimul}${url}`,{headers,params});
-  //   return value;
-  //  }
 }
 
 

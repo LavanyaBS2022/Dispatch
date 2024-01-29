@@ -27,12 +27,6 @@ export class DispatchDetailsPage {
   @ViewChild('datetimePicker') datetimePicker: any;
 
   tableHeaders: string[] = ['Item', 'qty', 'Crates', 'Ltr/Kg'];
-  accordionItems = [
-    { value: 'customer1', label: 'Customer 1', tableData: [['TM -1000', '145.00', '13', '13']] },
-    { value: 'customer2', label: 'Customer 2', tableData: [['SHUBAM-1000', '96.00', '8', '8']] },
-    { value: 'customer3', label: 'Customer 3', tableData: [['H S M-1000', '765.00', '64', '64']] },
-  ];
-
   constructor(private apiService: ApiService,private spinner: NgxSpinnerService) {
     this.selectedDate = new Date().toISOString();
   }
