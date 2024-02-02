@@ -1,73 +1,41 @@
+ion-card.first-card {
+  margin-top: 17%;
+  width: 100%;
+  max-width: none;
+  margin-left: 0; /* Add this line to remove the left margin */
+}
 
-ion-header {
-    ion-toolbar {
-      background-color: #f0f0f0; 
-    }
-  }
-  
-  ion-content {
-    ion-grid {
-      .first-card {
-        ion-card-header {
-          background-color: #f0f0f0; 
-        }
-  
-        .card-content {
-          display: flex;
-          flex-direction: column;
-          margin-top: 20px; 
-        }
+ion-content {
+  --background: #deebf3;
+}
+
+ion-content {
+  ion-grid {
+    .first-card {
+      ion-card-header {
+        background-color: #f0f0f0;
       }
 
+      .card-content {
+        display: flex;
+        flex-direction: column;
+        margin-top: 20px;
+      }
     }
   }
-
-  .second-card{
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-  }
-  
-  .example-headers-align {
-    max-width: 500px; /* Adjust the value based on your preference */
-    width: 90%; /* Ensure the accordion takes full width */
-    margin: 0 auto; /* Center the accordion horizontally */
-  }
-  
-  .mat-expansion-panel-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .custom-button {
-    margin-top: 10px;
-  }
-  
-  ion-button {
-    color: #fff;
-    background-color: #20a8d8;
-    border-color: #20a8d8;
-  }
-  
-  .body {
-    color: #23282c;
-    text-align: left;
-    background-color: #e4e5e6;
-  }
-
-
-.buttons-container {
-  margin-top: 10px; 
 }
 
-@media (max-width: 576px) {
-  .table th, .table td {
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-  }
+ion-card.second-card {
+  width: 100%;
+  max-width: none;
+  margin-left: 0;
 }
-/* Add this to your component's CSS file */
+
+.mat-expansion-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
 .table-container {
   overflow-x: auto;
@@ -76,7 +44,7 @@ ion-header {
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+  margin-top: 0; /* Remove margin */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -86,9 +54,10 @@ table td {
   padding: 12px;
   text-align: left;
 }
+
 .table th {
-  background-color: #20a8d8;
-  color: #fff;
+  background-color: #7ec3f1;
+  color: #272727;
 }
 
 table tr:nth-child(even) {
@@ -97,31 +66,22 @@ table tr:nth-child(even) {
 
 table th:nth-child(1),
 table td:nth-child(1) {
-  width: 30%; /* Adjust as needed */
+  width: 40%; /* Adjust as needed */
 }
 
 table th:nth-child(2),
 table td:nth-child(2) {
-  width: 20%; /* Adjust as needed */
+  width: 30%; /* Adjust as needed */
 }
 
 table th:nth-child(3),
 table td:nth-child(3) {
-  width: 20%; /* Adjust as needed */
+  width: 30%; /* Adjust as needed */
 }
 
 table th:nth-child(4),
 table td:nth-child(4) {
-  width: 30%; /* Adjust as needed */
-}
-
-@media (max-width: 576px) {
-  .table th,
-  .table td {
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-  }
+  width: 10%; /* Adjust as needed */
 }
 
 .data-cell {
@@ -136,11 +96,33 @@ table td:nth-child(4) {
   z-index: 2;
   background-color: #f2f2f2;
 }
-.responsive-input{
-  width:55%;
-  box-sizing: border-box;
-  text-align: center;
-  top: 50%;
-  left: 50%;
-  transform: translate(50%, 0%);
+
+ion-button {
+  color: #474747;
+  background-color: #7ec3f1;
+  border-color: #20a8d8;
+}
+
+.loadButton {
+  color: #fff;
+  background-color: #9cc1da !important;
+  border-color: #7ec3f1 !important;
+}
+
+.mat-expansion-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+// .mat-expansion-panel-header.selected {
+//   background-color: grey; /* Set your desired color for the selected header */
+// }
+
+// .saved-panel {
+//   background-color: grey !important;  // Add !important to override other styles
+// }
+
+.mat-expansion-panel-header.saved-panel {
+  background-color: rgb(218, 216, 216) !important;
 }

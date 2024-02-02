@@ -1,11 +1,3 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Dispatch Details
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
   <ion-grid>
     <ion-row class="input-row">
@@ -17,7 +9,7 @@
                 Dispatch Details
               </ion-title>
               <ion-buttons slot="end">
-                <ion-button (click)="saveData()" [disabled]="!showSaveButton">Save</ion-button>
+                <ion-button (click)="saveData()">Save</ion-button>
               </ion-buttons>
             </ion-toolbar>
           </ion-card-header>
@@ -30,93 +22,68 @@
             </ion-item>
             <ion-item>
               <ion-select class="custom-input" placeholder="Route" [(ngModel)]="selectedRoute">
-                <ion-select-option *ngFor="let route of routeOptions" [value]="route.route_code">{{ route.route_name }}</ion-select-option>
+                <ion-select-option *ngFor="let route of routeOptions" [value]="route.route_code">{{ route.route_name }}
+                </ion-select-option>
               </ion-select>
-              
             </ion-item>
-            
-              <!-- <ion-button [disabled]="!allFieldsFilled()" (click)="loadData()">Load</ion-button> -->
-
-              <div class="ion-text-center">
-                <ion-button [disabled]="!allFieldsFilled()" (click)="handleLoadButtonClick()">Load</ion-button>
-              </div>
-              
+            <div class="ion-text-center">
+              <ion-button class="loadButton" [disabled]="!allFieldsFilled()" (click)="handleLoadButtonClick()">Load
+              </ion-button>
+            </div>
           </ion-card-content>
         </ion-card>
       </ion-col>
     </ion-row>
 
-    <ion-row class="second-card" *ngIf="showSecondAndThirdCards">
-      <mat-accordion class="example-headers-align">
-        <div *ngFor="let customer of customerData; let i = index">
-          <mat-expansion-panel [expanded]="isAccordionItemOpen(i)" (opened)="setPanelIndex(i)" (closed)="closeAccordion(i)">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                {{ customer.customer_name }}
-              </mat-panel-title>
-              <!-- Display Save button only if the accordion is open -->
-              <button mat-icon-button color="primary" *ngIf="i === currentPanelIndex" (click)="savePanelData($event, customer)">
-                <mat-icon>save</mat-icon>
-              </button>
-            </mat-expansion-panel-header>
-            <table>
-              <thead>
-                <tr>
-                  <th *ngFor="let header of tableHeaders">{{ header }}</th>
-                </tr>
-              </thead>
-              <!-- <tbody>
-                <tr *ngFor="let packet of customer.packets">
-                  <td>{{ packet.packet_name }}</td>
-                  <div class="responsive-input">   
-                   <td  ><ion-input label="{{ packet.sent_qty }}"  class="data-cell"></ion-input></td>
-                  </div> -->
-                  <!-- <td>{{ packet.sent_qty }}</td> -->
-                  <!-- <td>{{ packet.crates }}</td>
-                  <td>{{ packet.ltrs_kgs }}</td>
-                </tr>
-              </tbody> -->
-              <!-- <tbody>
-                <tr *ngFor="let packet of customer.packets let colIndex = index">
-                  <td>{{ packet.packet_name }}</td>
-                  <ng-container *ngFor="let packet of customer.packets; let colIndex = index">
-                    <ng-container *ngIf="colIndex !== 1 && colIndex !== 2">
-                      <td>        
-                          <ion-input [(ngModel)]="packet.sent_qty" class="data-cell"></ion-input>
-                      </td>
-                    </ng-container>
-                    <ng-container *ngIf="colIndex === 1 || colIndex === 2">
+    <ion-row class="input-row" *ngIf="showSecondAndThirdCards">
+      <ion-col size-lg="12" size-md="12" size-sm="12" size-xs="12">
+        <ion-card class="second-card">
+          <mat-accordion class="example-headers-align">
+            <div *ngFor="let customer of customerData; let i = index">
+              <mat-expansion-panel [expanded]="isAccordionItemOpen(i)" (opened)="setPanelIndex(i)"
+                (closed)="closeAccordion(i)">
+                <mat-expansion-panel-header [class.saved-panel]="isPanelSaved(i)">
+                  <mat-panel-title>
+                    {{ customer.customer_name }}
+                  </mat-panel-title>
+                  <button mat-icon-button color="primary" *ngIf="i === currentPanelIndex"
+                    (click)="savePanelData(customer.indent_number, customer)">
+                    <mat-icon>save</mat-icon>
+                  </button>
+                </mat-expansion-panel-header>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th *ngFor="let header of tableHeaders">{{ header }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let packet of customer.packets; let rowIndex = index">
+                      <td>{{ packet.packet_name }}</td>
                       <td>
-                          <ion-input [(ngModel)]="packet.crates" class="data-cell"></ion-input>
+                        <ion-input [(ngModel)]="packet.sent_qty" class="data-cell" #sentQtyInput></ion-input>
                       </td>
-                    </ng-container>
-                  </ng-container>
-                  <td>{{ packet.ltrs_kgs }}</td>
-                </tr>
-              </tbody>               -->
-
-              <tbody>
-                <tr *ngFor="let packet of customer.packets; let rowIndex = index">
-                  <td>{{ packet.packet_name }}</td>
-                  <td>
-                    <ion-input [(ngModel)]="packet.sent_qty" class="data-cell"></ion-input>
-                  </td>
-                  <td>
-                    <ion-input [(ngModel)]="packet.crates" class="data-cell"></ion-input>
-                  </td>
-                  <td>{{ packet.ltrs_kgs }}</td>
-                </tr>
-              </tbody>
-            </table>
-            <mat-action-row>
-              <button mat-button color="warn" (click)="handleAccordionAction('prev', i)" [disabled]="i === 0">Previous</button>
-              <button mat-button color="primary" (click)="handleAccordionAction('next', i)" [disabled]="i === customerData.length - 1">Next</button>
-              <button mat-button color="primary" (click)="handleAccordionAction('end', i)" [disabled]="i === currentPanelIndex - 1">End</button>
-            </mat-action-row>
-          </mat-expansion-panel>
-        </div>
-      </mat-accordion>
+                      <td>
+                        <ion-input [(ngModel)]="packet.crates" class="data-cell" #cratesInput></ion-input>
+                      </td>
+                      <td>{{ packet.ltrs_kgs }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <mat-action-row>
+                  <button mat-button color="warn" (click)="handleAccordionAction('prev', i)"
+                    [disabled]="i === 0">Previous</button>
+                  <button mat-button color="primary" (click)="handleAccordionAction('next', i)"
+                    [disabled]="i === customerData.length - 1">Next</button>
+                  <button mat-button color="primary" (click)="handleAccordionAction('end', i)"
+                    [disabled]="i === currentPanelIndex - 1">End</button>
+                </mat-action-row>
+              </mat-expansion-panel>
+            </div>
+          </mat-accordion>
+        </ion-card>
+      </ion-col>
     </ion-row>
-    
+
   </ion-grid>
 </ion-content>

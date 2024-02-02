@@ -60,6 +60,15 @@ export class ApiService {
     return value;
   }
 
+  putRequest(url: string, body: {}): Observable<any> {
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 2000);    
+    const token =this.sharedService.getToken();
+    const headers = new HttpHeaders().set('Authorization', token?token:'');
+    return this.http.put(`${this.rootUrl}${url}`, body, { headers });
+  }
 
 }
 

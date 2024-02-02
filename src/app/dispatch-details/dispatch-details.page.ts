@@ -1,9 +1,18 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ApiService } from '../shared/services/api.service';
 import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
+import { AlertController } from '@ionic/angular';  // Import AlertController from Ionic
+
 interface Route {
   route_code: string;
   route_name: string;
+}
+
+interface Packet {
+  packet_code: number;
+  sent_qty: number;
+  crates: number;
+  ltrs_kgs: number;
 }
 
 @Component({
@@ -23,17 +32,21 @@ export class DispatchDetailsPage {
   customerData: any[] = [];
   currentPanelIndex: number = -1; 
   showSaveButton: boolean = false; // New flag to control save button visibility
+  savedPanels: Set<number> = new Set<number>();
+
 
   @ViewChild('datetimePicker') datetimePicker: any;
 
+  
   tableHeaders: string[] = ['Item', 'qty', 'Crates', 'Ltr/Kg'];
-  constructor(private apiService: ApiService,private spinner: NgxSpinnerService) {
+  constructor(private apiService: ApiService,private spinner: NgxSpinnerService, private alertController: AlertController) {
     this.selectedDate = new Date().toISOString();
   }
 
   ngOnInit() {
     this.getRoute();
   }
+
 getRoute() {
   this.apiService.getRequest('/master/route').subscribe((sResponse) => {
     this.routeOptions = sResponse.data.map((item: any) => {
@@ -42,14 +55,21 @@ getRoute() {
         route_name: item.route_name,
       };
     });
+    console.log("routes",sResponse)
   });
 }
 
+saveData() {
+  debugger
+  const gpNumbers = this.customerData.map(customer => customer.gp_number);
+  const route_no = {
+    gp_number: gpNumbers[0]
+  };
+  this.apiService.putRequest('/fgs/completeDispatch', route_no).subscribe((sResponse) => {
+    console.log("response", sResponse);
+  });
+}
 
-  saveData() {
-    console.log('Save button clicked!');
-    // Add logic to save data here
-  }
 
   openDatePicker() {
     this.showDatePicker = true;
@@ -77,12 +97,6 @@ getRoute() {
     }
     return date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: '2-digit' }) || '';
   }
-
-  savePanelData(event: Event, customer: any) {
-    event.stopPropagation();
-    console.log('Save button clicked for customer:', customer.customer);
-  }
-
 
   setPanelIndex(index: number) {
     this.currentPanelIndex = index;
@@ -118,50 +132,49 @@ getRoute() {
   
   closeAccordion(index: number) {
       this.accordionItemStates[index] = false;  
-
     }
-  
-  
 
   isLastAccordionItem(index: number): boolean {
     return index === this.accordionItemStates.length - 1;
   }
+  
+  handleLoadButtonClick() {
+    const formattedDate = (this.formatDate(this.selectedDate) || '')!;
+    const routeCode = this.selectedRoute ? +this.selectedRoute : 0;
+    this.loadData(formattedDate, routeCode);
+  }
 
-  loadData1(pDate:string,route_code:number=0) {
+  loadData(pDate:string,route_code:number=0) {
     debugger
     this.spinner.show();
     setTimeout(() => {
       this.spinner.hide();
     }, 2000);
     this.showSecondAndThirdCards = true;
-    this.apiService.getRequestbyParams('/fgs/routeDispatchDetails', pDate, route_code).subscribe((sResponse) => {
+    this.apiService.getRequestbyParams('/fgs/routeDispatchDetails', pDate,route_code).subscribe((sResponse) => {
       this.customerData = sResponse.data;
-      console.log("response", sResponse);
+      console.log("response", this.customerData);
     });
-  }
-  
-  loadData(pDate: string | null, route_code: number = 0) {
-    this.spinner.show();
-    setTimeout(() => {
-      this.spinner.hide();
-    }, 2000);
-  
-    // Handle null value for selectedDate
-    const formattedDate = pDate || '';
-  
-    this.showSecondAndThirdCards = true;
-    this.apiService.getRequestbyParams('/fgs/routeDispatchDetails', formattedDate, route_code).subscribe((sResponse) => {
-      this.customerData = sResponse.data;
-      console.log("response", sResponse);
+   } 
+ 
+   savePanelData(indentNumber: number, customer: any): void {
+      const updatedData = {
+      indent_number: indentNumber,
+      packets: customer.packets.map((packet: any) => ({
+        packet_code: packet.packet_code,
+        sent_qty:Number(packet.sent_qty) ,  // Bind sent_qty directly from the packet
+        crates: Number( packet.crates),      // Bind crates directly from the packet
+        ltrs_kgs: packet.ltrs_kgs
+      }))
+    };
+    this.savedPanels.add(this.currentPanelIndex);
+    this.apiService.putRequest('/fgs/dispatch',updatedData).subscribe((sResponse) => {
     });
-  }
-  
-  handleLoadButtonClick() {
-
-    const formattedDate = (this.formatDate(this.selectedDate) || '')!;
-    const routeCode = this.selectedRoute ? +this.selectedRoute : 0;
-  
-    this.loadData1(formattedDate, routeCode);
+    console.log(updatedData);
   }
 
+  isPanelSaved(index: number): boolean {
+    return this.savedPanels.has(index);
+  }
+    
 }
