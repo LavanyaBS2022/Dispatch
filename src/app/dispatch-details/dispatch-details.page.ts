@@ -33,6 +33,7 @@ export class DispatchDetailsPage {
   currentPanelIndex: number = -1; 
   showSaveButton: boolean = false; // New flag to control save button visibility
   savedPanels: Set<number> = new Set<number>();
+  allPanelsSaved: boolean = false; // New property to track whether all panels are saved
 
 
   @ViewChild('datetimePicker') datetimePicker: any;
@@ -168,6 +169,7 @@ saveData() {
       }))
     };
     this.savedPanels.add(this.currentPanelIndex);
+    this.checkAllPanelsSaved();
     this.apiService.putRequest('/fgs/dispatch',updatedData).subscribe((sResponse) => {
     });
     console.log(updatedData);
@@ -177,4 +179,8 @@ saveData() {
     return this.savedPanels.has(index);
   }
     
+  
+  checkAllPanelsSaved(): void {
+    this.allPanelsSaved = this.customerData.every((_, index) => this.savedPanels.has(index));
+  }
 }

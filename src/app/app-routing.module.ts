@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { SidenavPage } from './shared/sidenav/sidenav.page';
-import { AuthGuard } from './shared/authGuard/auth.guard';
 import { AppComponent } from './app.component';
 
 const routes: Routes = [
-  { path: '', component: AppComponent, canActivate: [AuthGuard] },
+  { path: '', component: AppComponent },
   {
     path: 'login',
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
@@ -23,10 +22,6 @@ const routes: Routes = [
     loadChildren: () => import('./shared/sidenav/sidenav.module').then( m => m.SidenavPageModule),
   },
   {
-    path: 'otp-login',
-    loadChildren: () => import('./otp-login/otp-login.module').then( m => m.OtpLoginPageModule)
-  },
-  {
     path: 'signup',
     loadChildren: () => import('./signup/signup.module').then( m => m.SignupPageModule)
   },
@@ -37,10 +32,6 @@ const routes: Routes = [
   {
     path: 'reset-password',
     loadChildren: () => import('./reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
-  },
-  {
-    path: 'dummy',
-    loadChildren: () => import('./dummy/dummy.module').then( m => m.DummyPageModule)
   }
 ];
 

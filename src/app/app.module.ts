@@ -12,8 +12,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginPageModule } from './login/login.module';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxSpinnerModule } from "ngx-spinner";
-import { RecaptchaModule } from 'ng-recaptcha';
-import { DummyPageModule } from './dummy/dummy.module';
 
 
 @NgModule({
@@ -27,8 +25,7 @@ import { DummyPageModule } from './dummy/dummy.module';
       DispatchDetailsPageModule, 
       BrowserAnimationsModule,
       NgxSpinnerModule,
-      RecaptchaModule,
-      DummyPageModule,],
+    ],
       
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],

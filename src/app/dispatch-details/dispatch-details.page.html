@@ -8,9 +8,7 @@
               <ion-title>
                 Dispatch Details
               </ion-title>
-              <ion-buttons slot="end">
-                <ion-button (click)="saveData()">Save</ion-button>
-              </ion-buttons>
+              <ion-button (click)="saveData()" [disabled]="!allFieldsFilled() || !allPanelsSaved" slot="end">Save</ion-button>
             </ion-toolbar>
           </ion-card-header>
           <ion-card-content class="card-content">
