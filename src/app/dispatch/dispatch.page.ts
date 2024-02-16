@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
-import { DatetimeCustomEvent, ModalController } from '@ionic/angular';
+import {  ModalController } from '@ionic/angular';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { EditComponent } from './edit/edit.component';
 import { ApiService } from '../shared/services/api.service';
 
 @Component({
@@ -69,18 +68,6 @@ export class DispatchPage {
   
   closeDatePicker() {
     this.showDatePicker = false;
-  }
-       
-  async openEditModal(rowData: any,tableHeaders:any) {
-    const modal = await this.modalController.create({
-      component: EditComponent,
-      componentProps: {
-        rowData: rowData,
-        tableHeaders:tableHeaders
-      },
-    });
-    console.log('rowData', rowData)
-    await modal.present();
   }
 
   saveData() {

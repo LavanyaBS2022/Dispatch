@@ -11,7 +11,6 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { EditModule } from './edit/edit.module';
 import { MaterialModule } from '../material/material.module';
                                                      
 @NgModule({
@@ -26,7 +25,6 @@ import { MaterialModule } from '../material/material.module';
     MatInputModule, 
     MatDatepickerModule, 
     MatNativeDateModule,
-    EditModule
   ],
   declarations: [DispatchPage]
 })

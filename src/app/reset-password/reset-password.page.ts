@@ -28,7 +28,6 @@ export class ResetPasswordPage {
       }
 
       async submitReset() {
-        debugger;
         if (this.pwd !== this.confirmPassword) {
           console.error('Passwords do not match');
           await this.presentAlert('Error', 'Passwords do not match');

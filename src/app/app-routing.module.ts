@@ -13,9 +13,13 @@ const routes: Routes = [
     path:'',
     component:SidenavPage,
     children:[
-      { path: 'dispatch', loadChildren: () => import('../app/dispatch/dispatch.module').then(m => m.DispatchPageModule) },
       { path: 'dispatch-details', loadChildren: () => import('../app/dispatch-details/dispatch-details.module').then(m => m.DispatchDetailsPageModule) },
+      { path: 'dispatch', loadChildren: () => import('../app/dispatch/dispatch.module').then(m => m.DispatchPageModule) },
       ]
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule),
   },
   {
     path: 'sidenav',

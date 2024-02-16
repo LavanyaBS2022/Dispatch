@@ -26,7 +26,7 @@ export class LoginPage {
     this.apiService.postAuthentication('/login/authenticateMobile', postData).subscribe(
       (response: any) => {
         if (response.status === true) {
-          this.router.navigate(['/dispatch']);
+          this.router.navigate(['/dispatch-details']);
             this.sharedService.setToken(response.data.token); 
             this.sharedService.setName(response.data.name) ;
         } else {

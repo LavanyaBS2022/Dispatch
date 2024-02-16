@@ -44,7 +44,7 @@ ion-card.second-card {
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 0; /* Remove margin */
+  margin-top: 2px; 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -114,14 +114,6 @@ ion-button {
   justify-content: space-between;
   align-items: center;
 }
-
-// .mat-expansion-panel-header.selected {
-//   background-color: grey; /* Set your desired color for the selected header */
-// }
-
-// .saved-panel {
-//   background-color: grey !important;  // Add !important to override other styles
-// }
 
 .mat-expansion-panel-header.saved-panel {
   background-color: #bce3fd !important;

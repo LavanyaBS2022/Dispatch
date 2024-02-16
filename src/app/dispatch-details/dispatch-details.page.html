@@ -73,8 +73,9 @@
                     [disabled]="i === 0">Previous</button>
                   <button mat-button color="primary" (click)="handleAccordionAction('next', i)"
                     [disabled]="i === customerData.length - 1">Next</button>
-                  <button mat-button color="primary" (click)="handleAccordionAction('end', i)"
-                    [disabled]="i === currentPanelIndex - 1">End</button>
+                    <button mat-button color="primary" (click)="saveConfirmation(i)"
+                    [disabled]="i !== customerData.length - 1">Save</button>
+
                 </mat-action-row>
               </mat-expansion-panel>
             </div>

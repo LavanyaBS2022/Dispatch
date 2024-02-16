@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ApiService } from '../shared/services/api.service';
 import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
 import { AlertController } from '@ionic/angular';  // Import AlertController from Ionic
+import { Router } from '@angular/router';
 
 interface Route {
   route_code: string;
@@ -28,19 +29,19 @@ export class DispatchDetailsPage {
   showSecondAndThirdCards = false;
   selectedRoute: string | null = null;
   selectedDespatcherIncharge: string | null = null;
-  accordionItemStates: boolean[] = [false, false, false];
+  accordionItemStates: boolean[]=[];
   customerData: any[] = [];
   currentPanelIndex: number = -1; 
-  showSaveButton: boolean = false; // New flag to control save button visibility
+  showSaveButton: boolean = false; 
   savedPanels: Set<number> = new Set<number>();
-  allPanelsSaved: boolean = false; // New property to track whether all panels are saved
+  allPanelsSaved: boolean = false; 
 
 
   @ViewChild('datetimePicker') datetimePicker: any;
 
   
   tableHeaders: string[] = ['Item', 'qty', 'Crates', 'Ltr/Kg'];
-  constructor(private apiService: ApiService,private spinner: NgxSpinnerService, private alertController: AlertController) {
+  constructor(private router:Router,private apiService: ApiService,private spinner: NgxSpinnerService, private alertController: AlertController) {
     this.selectedDate = new Date().toISOString();
   }
 
@@ -61,7 +62,6 @@ getRoute() {
 }
 
 saveData() {
-  debugger
   const gpNumbers = this.customerData.map(customer => customer.gp_number);
   const route_no = {
     gp_number: gpNumbers[0]
@@ -118,6 +118,7 @@ saveData() {
       case 'next':
         if (index < this.accordionItemStates.length - 1) {
           this.toggleAccordionItem(index + 1);
+          this.markAccordionHeaderAsClicked(index);
         }
         break;
       case 'prev':
@@ -126,10 +127,18 @@ saveData() {
         }
         break;
       case 'end':
-        this.closeAccordion(index);
+      if (index === this.accordionItemStates.length - 1) {
+        this.closeAccordion(index); // Close the current panel
+      }
         break;
     }
   }
+  
+  markAccordionHeaderAsClicked(index: number): void {
+    this.savedPanels.add(index);
+    this.checkAllPanelsSaved();
+  }
+  
   
   closeAccordion(index: number) {
       this.accordionItemStates[index] = false;  
@@ -146,7 +155,6 @@ saveData() {
   }
 
   loadData(pDate:string,route_code:number=0) {
-    debugger
     this.spinner.show();
     setTimeout(() => {
       this.spinner.hide();
@@ -155,7 +163,10 @@ saveData() {
     this.apiService.getRequestbyParams('/fgs/routeDispatchDetails', pDate,route_code).subscribe((sResponse) => {
       this.customerData = sResponse.data;
       console.log("response", this.customerData);
+      this.accordionItemStates = new Array(this.customerData.length).fill(false);
     });
+
+
    } 
  
    savePanelData(indentNumber: number, customer: any): void {
@@ -163,8 +174,8 @@ saveData() {
       indent_number: indentNumber,
       packets: customer.packets.map((packet: any) => ({
         packet_code: packet.packet_code,
-        sent_qty:Number(packet.sent_qty) ,  // Bind sent_qty directly from the packet
-        crates: Number( packet.crates),      // Bind crates directly from the packet
+        sent_qty:Number(packet.sent_qty) ,  
+        crates: Number( packet.crates),   
         ltrs_kgs: packet.ltrs_kgs
       }))
     };
@@ -177,10 +188,35 @@ saveData() {
 
   isPanelSaved(index: number): boolean {
     return this.savedPanels.has(index);
-  }
-    
+  }    
   
   checkAllPanelsSaved(): void {
     this.allPanelsSaved = this.customerData.every((_, index) => this.savedPanels.has(index));
   }
+  
+  async saveConfirmation(index: number) {
+    const alert = await this.alertController.create({
+      header: 'Confirm Save',
+      message: 'Are you sure you want to save the details?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }, {
+          text: 'Save',
+          handler: () => {
+            console.log('Save clicked');
+            this.router.navigateByUrl('/dispatch-details');
+          }
+        }
+      ]
+    });
+  
+    await alert.present();
+  }
+  
 }
