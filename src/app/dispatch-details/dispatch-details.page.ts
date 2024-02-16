@@ -35,6 +35,8 @@ export class DispatchDetailsPage {
   showSaveButton: boolean = false; 
   savedPanels: Set<number> = new Set<number>();
   allPanelsSaved: boolean = false; 
+  // filteredRouteOptions: any[] = [];
+  // searchTerm: string = '';
 
 
   @ViewChild('datetimePicker') datetimePicker: any;
@@ -210,7 +212,9 @@ saveData() {
           text: 'Save',
           handler: () => {
             console.log('Save clicked');
-            this.router.navigateByUrl('/dispatch-details');
+            this.saveData();
+           this.refreshPage();
+            
           }
         }
       ]
@@ -218,5 +222,21 @@ saveData() {
   
     await alert.present();
   }
+  refreshPage() {
+    // Get the current route URL
+    const currentUrl = this.router.url;
   
+    // Navigate to the same route without changing the URL
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      // Navigate back to the original route
+      this.router.navigateByUrl(currentUrl);
+    });
+  }
+  
+  // filterRoutes(event: any) {
+  //   const searchTerm = (this.searchTerm || '').toLowerCase();
+
+  //   // Filter routeOptions based on the search term
+  //   this.filteredRouteOptions = this.routeOptions.filter(route => route.route_name.toLowerCase().includes(searchTerm));
+  // }
 }
