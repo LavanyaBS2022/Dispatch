@@ -18,38 +18,40 @@
               <ion-datetime *ngIf="showDatePicker" [(ngModel)]="selectedDate" (ionChange)="onDateSelected($event)">
               </ion-datetime>
             </ion-item>
-            <ion-item>
+
+            <ion-item (click)="select.open()">
+              <ion-label>Select Route</ion-label>
+              <app-searchable
+                title="Select Route"
+                [data]="routeOptions"
+                itemTextField="route_name"
+                route_code="route_code"
+                [multiple]="false"
+                [(ngModel)]="selectedRoute"
+                (routeCodeSelected)="handleRouteCodeSelected($event)"
+                #select
+              ></app-searchable>
+            </ion-item>
+            
+
+            <!-- <ion-item>
               <ion-select class="custom-input" placeholder="Route" [(ngModel)]="selectedRoute">
                 <ion-select-option *ngFor="let route of routeOptions" [value]="route.route_code">{{ route.route_name }}
                 </ion-select-option>
               </ion-select>
-<!-- 
-              <ion-row class="input-row">
-                <ion-col size-lg="12" size-md="12" size-sm="12" size-xs="12">
-                  <ion-searchbar [(ngModel)]="searchTerm" (ionChange)="filterRoutes($event)">
-                  </ion-searchbar>
-                </ion-col>
-              </ion-row>
-              
-              <ion-row class="input-row">
-                <ion-col size-lg="12" size-md="12" size-sm="12" size-xs="12">
-                  <ion-select class="custom-input" placeholder="Route" [(ngModel)]="selectedRoute">
-                    <ion-select-option *ngFor="let route of filteredRouteOptions" [value]="route.route_code">{{ route.route_name }}</ion-select-option>
-                  </ion-select>
-                </ion-col>
-              </ion-row> -->
+            </ion-item> -->
 
-
-            </ion-item>
-            <div class="ion-text-center">
-              <ion-button class="loadButton" [disabled]="!allFieldsFilled()" (click)="handleLoadButtonClick()">Load
-              </ion-button>
-            </div>
+            
+        
           </ion-card-content>
         </ion-card>
+        <div class="ion-text-center">
+          <ion-button class="loadButton"  (click)="handleLoadButtonClick()">Load
+          </ion-button>
+        </div>
       </ion-col>
     </ion-row>
-
+    
     <ion-row class="input-row" *ngIf="showSecondAndThirdCards">
       <ion-col size-lg="12" size-md="12" size-sm="12" size-xs="12">
         <ion-card class="second-card">

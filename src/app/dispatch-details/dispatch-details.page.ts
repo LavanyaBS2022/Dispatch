@@ -51,6 +51,11 @@ export class DispatchDetailsPage {
     this.getRoute();
   }
 
+  handleRouteCodeSelected(routeCode: string) {
+    
+  }
+  
+
 getRoute() {
   this.apiService.getRequest('/master/route').subscribe((sResponse) => {
     this.routeOptions = sResponse.data.map((item: any) => {
@@ -151,6 +156,7 @@ saveData() {
   }
   
   handleLoadButtonClick() {
+    debugger
     const formattedDate = (this.formatDate(this.selectedDate) || '')!;
     const routeCode = this.selectedRoute ? +this.selectedRoute : 0;
     this.loadData(formattedDate, routeCode);

@@ -1,0 +1,37 @@
+<div *ngIf="selectedRoute.length; else placeholder">
+  <div *ngFor="let route of selectedRoute">
+    <span>{{ leaf(route) }}</span>
+    <span
+      [(ngModel)]="route.selected"
+      [attr.data-route-code]="route.route_code"
+      (click)="emitRouteCode(route.route_code)"
+    ></span>
+  </div>
+</div>
+
+
+<ng-template #placeholder>Select</ng-template>
+
+
+<ion-modal [isOpen]="isOpen">
+<ng-template>
+  <ion-header>
+    <ion-toolbar color="primary">
+        <ion-button slot="start" (click)="cancel()">Cancel</ion-button>
+      <ion-title>{{title}}</ion-title>
+        <ion-button  slot="end" (click)="select()" *ngIf="multiple">Select</ion-button>
+    </ion-toolbar>
+    <ion-toolbar>
+      <ion-searchbar (ionChange)="filter($event)"></ion-searchbar>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-item *ngFor="let route of filtered">
+      <ion-checkbox slot="start" [(ngModel)]="route.selectedRoute"
+      (ionChange)="routeSelected()"
+      ></ion-checkbox>
+      <ion-label>{{leaf(route)}}</ion-label>
+    </ion-item>
+  </ion-content>
+</ng-template>
+</ion-modal>

@@ -8,6 +8,7 @@ import { DispatchDetailsPageRoutingModule } from './dispatch-details-routing.mod
 
 import { DispatchDetailsPage } from './dispatch-details.page';
 import { MaterialModule } from '../material/material.module';
+import { SearchableComponent } from './searchable/searchable.component';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { MaterialModule } from '../material/material.module';
     FormsModule,
     IonicModule,
     MaterialModule,
-    DispatchDetailsPageRoutingModule
+    DispatchDetailsPageRoutingModule,
+    SearchableComponent
   ],
   declarations: [DispatchDetailsPage]
 })
