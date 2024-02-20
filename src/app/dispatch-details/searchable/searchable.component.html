@@ -2,16 +2,12 @@
   <div *ngFor="let route of selectedRoute">
     <span>{{ leaf(route) }}</span>
     <span
-      [(ngModel)]="route.selected"
       [attr.data-route-code]="route.route_code"
-      (click)="emitRouteCode(route.route_code)"
     ></span>
   </div>
 </div>
 
-
 <ng-template #placeholder>Select</ng-template>
-
 
 <ion-modal [isOpen]="isOpen">
 <ng-template>
@@ -28,9 +24,9 @@
   <ion-content>
     <ion-item *ngFor="let route of filtered">
       <ion-checkbox slot="start" [(ngModel)]="route.selectedRoute"
-      (ionChange)="routeSelected()"
-      ></ion-checkbox>
-      <ion-label>{{leaf(route)}}</ion-label>
+        (ionChange)="routeSelected()"
+        [value]="route.route_code"></ion-checkbox>
+      <ion-label (click)="emitRouteSelected(route.route_code)">{{ leaf(route) }}</ion-label> <!-- Emitting selected route -->
     </ion-item>
   </ion-content>
 </ng-template>

@@ -20,28 +20,25 @@
             </ion-item>
 
             <ion-item (click)="select.open()">
-              <ion-label>Select Route</ion-label>
-              <app-searchable
-                title="Select Route"
-                [data]="routeOptions"
-                itemTextField="route_name"
-                route_code="route_code"
-                [multiple]="false"
-                [(ngModel)]="selectedRoute"
-                (routeCodeSelected)="handleRouteCodeSelected($event)"
-                #select
-              ></app-searchable>
-            </ion-item>
-            
-
+              <ion-label>Select Route</ion-label>        
+            <app-searchable
+            title="Select Route"
+            [data]="routeOptions"
+            itemTextField="route_name"
+            [multiple]="false"
+            (selectedChange)="handleRouteCodeSelected($event)"
+            #select
+          ></app-searchable>
+            </ion-item> 
+              
+            <!-- (selectedChange)="handleRouteNameSelected($event)" -->
             <!-- <ion-item>
               <ion-select class="custom-input" placeholder="Route" [(ngModel)]="selectedRoute">
                 <ion-select-option *ngFor="let route of routeOptions" [value]="route.route_code">{{ route.route_name }}
                 </ion-select-option>
               </ion-select>
             </ion-item> -->
-
-            
+        
         
           </ion-card-content>
         </ion-card>

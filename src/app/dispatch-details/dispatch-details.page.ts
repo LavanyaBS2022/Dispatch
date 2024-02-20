@@ -51,10 +51,18 @@ export class DispatchDetailsPage {
     this.getRoute();
   }
 
-  handleRouteCodeSelected(routeCode: string) {
-    
+  handleRouteCodeSelected(route_code: any) {
+    this.selectedRoute = route_code;
+    console.log('Selected Route:', this.selectedRoute);
   }
   
+
+
+  // Add a new method to handle the selected route name
+  handleRouteNameSelected(route_name: string) {
+    // Perform actions with the route name if needed
+    console.log('Selected Route Name:', route_name);
+  }
 
 getRoute() {
   this.apiService.getRequest('/master/route').subscribe((sResponse) => {
