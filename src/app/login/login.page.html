@@ -15,11 +15,14 @@
       </ion-item>
 
       <ion-button expand="full" type="submit">Login</ion-button>
+
     </form>
 
     <div class="ion-text-center">
       <p>Don't have an account? <a routerLink="/signup">Sign up</a></p>
       <p><a routerLink="/forgot-pwd">Forgot password?</a></p>
+      <ion-button expand="block" (click)="presentToast('top')">Present Toast At the Middle</ion-button>
+
     </div>
   </div>
 </ion-content>

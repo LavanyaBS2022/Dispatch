@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { SidenavPageRoutingModule } from './sidenav-routing.module';
 
 import { SidenavPage } from './sidenav.page';
+import { MaterialModule } from 'src/app/material/material.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    SidenavPageRoutingModule
+    SidenavPageRoutingModule,
+    MaterialModule
   ],
   declarations: [SidenavPage]
 })

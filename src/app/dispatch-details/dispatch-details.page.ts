@@ -55,8 +55,6 @@ export class DispatchDetailsPage {
     this.selectedRoute = route_code;
     console.log('Selected Route:', this.selectedRoute);
   }
-  
-
 
   // Add a new method to handle the selected route name
   handleRouteNameSelected(route_name: string) {
@@ -85,7 +83,6 @@ saveData() {
     console.log("response", sResponse);
   });
 }
-
 
   openDatePicker() {
     this.showDatePicker = true;
@@ -164,7 +161,6 @@ saveData() {
   }
   
   handleLoadButtonClick() {
-    debugger
     const formattedDate = (this.formatDate(this.selectedDate) || '')!;
     const routeCode = this.selectedRoute ? +this.selectedRoute : 0;
     this.loadData(formattedDate, routeCode);
@@ -181,8 +177,6 @@ saveData() {
       console.log("response", this.customerData);
       this.accordionItemStates = new Array(this.customerData.length).fill(false);
     });
-
-
    } 
  
    savePanelData(indentNumber: number, customer: any): void {

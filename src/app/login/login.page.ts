@@ -3,6 +3,9 @@ import { Router } from '@angular/router';
 import { ApiService } from '../shared/services/api.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SharedService } from '../shared/shared.service';
+import { Toast } from '@capacitor/toast';
+import { ToastController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-login',
@@ -10,70 +13,61 @@ import { SharedService } from '../shared/shared.service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage {
-  token:any;
-  name:any;
+  token: any;
+  name: any;
   loginForm!: FormGroup<any>;
 
-  constructor(private fb: FormBuilder,private router: Router,private apiService: ApiService,private sharedService:SharedService) {
+  constructor(private fb: FormBuilder, private router: Router, private apiService: ApiService, private sharedService: SharedService,private toastController:ToastController) {
     this.loginForm = this.fb.group({
-      mobile: ['', Validators.required], 
+      mobile: ['', Validators.required],
       password: ['', Validators.required]
     });
   }
-  
-  submitLoginForm() {
+
+  async submitLoginForm() {
     let postData = JSON.parse(JSON.stringify(this.loginForm.value));
     this.apiService.postAuthentication('/login/authenticateMobile', postData).subscribe(
-      (response: any) => {
+      async (response: any) => {
         if (response.status === true) {
-          this.router.navigate(['/dispatch-details']);
-            this.sharedService.setToken(response.data.token); 
-            this.sharedService.setName(response.data.name) ;
+          await this.router.navigate(['/dispatch-details']);
+          this.sharedService.setToken(response.data.token);
+          this.sharedService.setName(response.data.name);
+          this.sharedService.setNumber(response.data.mobile);
         } else {
           console.log('Login unsuccessful:', response);
-          
-          if (response.errorCode === 'INVALID_CREDENTIALS') {
-            alert('Incorrect mobile number or password. Please try again.');
+
+          if (response.trace === ' No User Exists') {
+            await Toast.show({
+              text: 'Incorrect mobile number or password. Please try again.',
+              duration: 'long'
+            });
           } else {
-            alert('An error occurred. Please try again later.');
+            await Toast.show({
+              text: 'An error occurred. Please try again later.',
+              duration: 'long'
+            });
           }
         }
       },
-      (error) => {
+      async (error) => {
         console.error('API Error:', error);
-        alert('An error occurred. Please try again later.');
+        await Toast.show({
+          text: 'An error occurred. Please try again later.',
+          duration: 'long'
+        });
       }
     );
   }
 
+  async presentToast(position: 'top' | 'middle' | 'bottom') {
+    const toast = await this.toastController.create({
+      message: 'Incorrect mobile number or password. Please try again.',
+      duration: 1500,
+      position: position,
+      color:'#ffff',
+      animated: true
+    });
 
-  // async login() {
-  //   if (!this.email || !this.password) {
-  //     this.presentAlert('Please enter both email and password.');
-  //     return;
-  //   }
-
-  //   const isValidUser = this.validateUser(this.email, this.password);
-
-  //   if (isValidUser) {
-  //     this.router.navigate(['/dispatch']);
-  //   } else {
-  //     this.presentAlert('Username does not exist or password is incorrect.');
-  //   }
-  // }
-
-  // validateUser(email: string, password: string): boolean {
-  //   return email === 'abc@123' && password === 'password';
-  // }
-
-  // async presentAlert(message: string) {
-  //   const alert = await this.alertController.create({
-  //     header: 'Alert',
-  //     message: message,
-  //     buttons: ['OK']
-  //   });
-
-  //   await alert.present();
-  // }
-  
+    await toast.present();
+  }
 }

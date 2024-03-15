@@ -1,6 +1,0 @@
-<network-security-config>
-    <domain-config cleartextTrafficPermitted="true">
-      <domain includeSubdomains="true">localhost</domain>
-      <domain includeSubdomains="true">http://202.21.34.147:3200</domain>
-    </domain-config>
-  </network-security-config>

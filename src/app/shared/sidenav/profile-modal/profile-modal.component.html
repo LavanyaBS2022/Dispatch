@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ name }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="profile-header">
+    <!-- You can design the profile header as per your requirement -->
+    <!-- For simplicity, adding the name and mobile number -->
+    <ion-avatar>
+      <img src="assets/avatar.png" alt="Profile Picture">
+    </ion-avatar>
+    <ion-label>{{ name }}</ion-label>
+    <ion-label>{{ mobileNo }}</ion-label>
+  </div>
+  <!-- Additional profile details can be added here -->
+</ion-content>
