@@ -7,12 +7,12 @@ ion-content {
 
 .logo-container {
   text-align: center;
-  margin-bottom: 20px; /* Adjust margin as needed */
+  margin-bottom: 20px; 
   margin-top: 140px;
 }
 
 .logo {
-  max-width: 250px; /* Adjust the maximum width of the logo */
+  max-width: 250px; 
   width: 100%;
 }
 
@@ -49,4 +49,8 @@ a {
 
 a:hover {
   text-decoration: underline;
+}
+
+.togglePassword{
+  margin:auto;
 }

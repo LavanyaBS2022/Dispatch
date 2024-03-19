@@ -3,7 +3,7 @@
     <img src="../../assets/icons/logo.png" alt="Logo" class="logo">
   </div>
   <div class="login-card">
-    <form  [formGroup]="loginForm" (ngSubmit)="submitLoginForm()">
+    <form  [formGroup]="loginForm" (ngSubmit)="submitLoginForm('top')">
       <ion-item>
         <ion-label position="floating">User name/Mobile number</ion-label>
         <ion-input type="mobile" name="mobile" formControlName="mobile" required></ion-input>
@@ -11,18 +11,20 @@
 
       <ion-item>
         <ion-label position="floating">Password</ion-label>
-        <ion-input type="password" name="password" formControlName="password" required></ion-input>
+        <ion-input type="{{ hidePassword ? 'password' : 'text' }}" name="password" formControlName="password" required></ion-input>
+        <ion-icon name="{{ hidePassword ? 'eye-off' : 'eye' }}" slot="end" (click)="togglePasswordVisibility()" [color]="hidePassword ? 'medium' : 'primary'" class="togglePassword"></ion-icon>
       </ion-item>
 
-      <ion-button expand="full" type="submit">Login</ion-button>
+      <ion-button expand="full" type="submit" [disabled]="loginForm.invalid">Login</ion-button>
 
     </form>
 
     <div class="ion-text-center">
       <p>Don't have an account? <a routerLink="/signup">Sign up</a></p>
       <p><a routerLink="/forgot-pwd">Forgot password?</a></p>
-      <ion-button expand="block" (click)="presentToast('top')">Present Toast At the Middle</ion-button>
 
     </div>
   </div>
 </ion-content>
+
+<!-- <ion-button expand="block" (click)="presentToast('top')">Present Toast At the Middle</ion-button> -->

@@ -5,10 +5,10 @@
         <ion-card class="first-card">
           <ion-card-header>
             <ion-toolbar>
-              <ion-title>
+              <ion-title class="title">
                 Dispatch Details
               </ion-title>
-              <ion-button (click)="saveData()" [disabled]="!allFieldsFilled() || !allPanelsSaved" slot="end">Save</ion-button>
+              <!-- <ion-button (click)="saveData()" [disabled]="!allFieldsFilled() || !allPanelsSaved" slot="end">Save</ion-button> -->
             </ion-toolbar>
           </ion-card-header>
           <ion-card-content class="card-content">
@@ -38,7 +38,6 @@
                 </ion-select-option>
               </ion-select>
             </ion-item> -->
-        
         
           </ion-card-content>
         </ion-card>
@@ -85,11 +84,12 @@
                   </tbody>
                 </table>
                 <mat-action-row>
+                  
                   <button mat-button color="warn" (click)="handleAccordionAction('prev', i)"
                     [disabled]="i === 0">Previous</button>
                   <button mat-button color="primary" (click)="handleAccordionAction('next', i)"
                     [disabled]="i === customerData.length - 1">Next</button>
-                    <button mat-button color="primary" (click)="saveConfirmation(i)"
+                  <button mat-button color="primary" (click)="saveConfirmation(i)"
                     [disabled]="i !== customerData.length - 1">Save</button>
 
                 </mat-action-row>

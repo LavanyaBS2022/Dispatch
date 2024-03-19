@@ -35,9 +35,6 @@ export class DispatchDetailsPage {
   showSaveButton: boolean = false; 
   savedPanels: Set<number> = new Set<number>();
   allPanelsSaved: boolean = false; 
-  // filteredRouteOptions: any[] = [];
-  // searchTerm: string = '';
-
 
   @ViewChild('datetimePicker') datetimePicker: any;
 
@@ -124,7 +121,6 @@ saveData() {
     this.currentPanelIndex = index;
   }
 
-
   handleAccordionAction(action: 'next' | 'prev' | 'end', index: number) {
     switch (action) {
       case 'next':
@@ -150,7 +146,6 @@ saveData() {
     this.savedPanels.add(index);
     this.checkAllPanelsSaved();
   }
-  
   
   closeAccordion(index: number) {
       this.accordionItemStates[index] = false;  
