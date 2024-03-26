@@ -3,15 +3,7 @@
     <ion-row class="input-row">
       <ion-col size-lg="12" size-md="12" size-sm="12" size-xs="12">
         <ion-card class="first-card">
-          <ion-card-header>
-            <ion-toolbar>
-              <ion-title class="title">
-                Dispatch Details
-              </ion-title>
-              <!-- <ion-button (click)="saveData()" [disabled]="!allFieldsFilled() || !allPanelsSaved" slot="end">Save</ion-button> -->
-            </ion-toolbar>
-          </ion-card-header>
-          <ion-card-content class="card-content">
+          <ion-card-content>
             <ion-item>
               {{ selectedDate | date }}
               <ion-icon name="calendar" slot="end" (click)="openDatePicker()"></ion-icon>
@@ -19,18 +11,20 @@
               </ion-datetime>
             </ion-item>
 
+            <!-- <ion-item>
+              {{ selectedDate | date }}
+              <ion-icon name="calendar" slot="end" (click)="openDatePicker()"></ion-icon>
+              <ion-datetime *ngIf="showDatePicker" [(ngModel)]="selectedDate" (ionChange)="onDateSelected($event)"
+                min="{{ minDate }}" max="{{ maxDate }}">
+              </ion-datetime>
+            </ion-item> -->
+
             <ion-item (click)="select.open()">
-              <ion-label>Select Route</ion-label>        
-            <app-searchable
-            title="Select Route"
-            [data]="routeOptions"
-            itemTextField="route_name"
-            [multiple]="false"
-            (selectedChange)="handleRouteCodeSelected($event)"
-            #select
-          ></app-searchable>
-            </ion-item> 
-              
+              <ion-label>Select Route</ion-label>
+              <app-searchable title="Select Route" [data]="routeOptions" itemTextField="route_name" [multiple]="false"
+                (selectedChange)="handleRouteCodeSelected($event)" #select></app-searchable>
+            </ion-item>
+          
             <!-- (selectedChange)="handleRouteNameSelected($event)" -->
             <!-- <ion-item>
               <ion-select class="custom-input" placeholder="Route" [(ngModel)]="selectedRoute">
@@ -38,16 +32,16 @@
                 </ion-select-option>
               </ion-select>
             </ion-item> -->
-        
+
           </ion-card-content>
         </ion-card>
         <div class="ion-text-center">
-          <ion-button class="loadButton"  (click)="handleLoadButtonClick()">Load
+          <ion-button class="loadButton" (click)="handleLoadButtonClick()">Load
           </ion-button>
         </div>
       </ion-col>
     </ion-row>
-    
+
     <ion-row class="input-row" *ngIf="showSecondAndThirdCards">
       <ion-col size-lg="12" size-md="12" size-sm="12" size-xs="12">
         <ion-card class="second-card">
@@ -67,24 +61,25 @@
                 <table class="table">
                   <thead>
                     <tr>
-                      <th *ngFor="let header of tableHeaders">{{ header }}</th>
+                      <th *ngFor="let header of tableHeaders">{{ header | uppercase }}</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr *ngFor="let packet of customer.packets; let rowIndex = index">
                       <td>{{ packet.packet_name }}</td>
                       <td>
-                        <ion-input [(ngModel)]="packet.sent_qty" class="data-cell" #sentQtyInput></ion-input>
+                        <ion-input [(ngModel)]="packet.sent_qty" (ngModelChange)="updateCrates(packet)" class="data-cell" #sentQtyInput style="text-align: center;"></ion-input>
                       </td>
                       <td>
-                        <ion-input [(ngModel)]="packet.crates" class="data-cell" #cratesInput></ion-input>
+                        <ion-input [value]="truncateCrates(packet.crates)" class="data-cell" #cratesInput style="text-align: center;"></ion-input>
                       </td>
-                      <td>{{ packet.ltrs_kgs }}</td>
                     </tr>
                   </tbody>
                 </table>
+                
+                
                 <mat-action-row>
-                  
+
                   <button mat-button color="warn" (click)="handleAccordionAction('prev', i)"
                     [disabled]="i === 0">Previous</button>
                   <button mat-button color="primary" (click)="handleAccordionAction('next', i)"

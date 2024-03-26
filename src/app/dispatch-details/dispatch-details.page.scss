@@ -9,19 +9,15 @@ ion-content {
   --background: #deebf3;
 }
 
-ion-content {
-  ion-grid {
-    .first-card {
-      ion-card-header {
-        background-color: #f0f0f0;
-      }
+ion-content ion-grid .first-card {
+  ion-card-header {
+    background-color: #f0f0f0;
+  }
 
-      .card-content {
-        display: flex;
-        flex-direction: column;
-        margin-top: 20px;
-      }
-    }
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
   }
 }
 
@@ -42,9 +38,10 @@ ion-card.second-card {
 }
 
 table {
-  width: 100%;
+  width: 100% !important;
   border-collapse: collapse;
-  margin-top: 2px; 
+  margin-top: 10px; 
+  margin: 0 !important;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -52,7 +49,7 @@ table th,
 table td {
   border: 1px solid #ddd;
   padding: 12px;
-  text-align: left;
+  text-align: center;
 }
 
 .table th {
@@ -60,28 +57,21 @@ table td {
   color: #272727;
 }
 
+ion-input {
+  text-align: center;
+}
+
 table tr:nth-child(even) {
   background-color: #f9f9f9;
 }
 
 table th:nth-child(1),
-table td:nth-child(1) {
-  width: 40%; /* Adjust as needed */
-}
-
+table td:nth-child(1),
 table th:nth-child(2),
-table td:nth-child(2) {
-  width: 30%; /* Adjust as needed */
-}
-
+table td:nth-child(2),
 table th:nth-child(3),
 table td:nth-child(3) {
   width: 30%; /* Adjust as needed */
-}
-
-table th:nth-child(4),
-table td:nth-child(4) {
-  width: 10%; /* Adjust as needed */
 }
 
 .data-cell {
@@ -119,6 +109,18 @@ ion-button {
   background-color: #bce3fd !important;
 }
 
-.title{
-margin-left:17%
+.title {
+  margin-left: 17%;
+}
+
+mat-accordion {
+  width: 100%; /* Ensure the accordion spans full width */
+}
+
+.mat-expansion-panel-content {
+  padding: 0; /* Remove padding to occupy full space */
+}
+
+.first-card ion-item {
+  --ion-item-background: white; /* Set the background color of ion-item */
 }

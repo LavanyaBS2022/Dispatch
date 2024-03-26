@@ -9,7 +9,6 @@ interface Route {
   route_name: string;
 }
 
-
 @Component({
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule],
@@ -38,9 +37,7 @@ export class SearchableComponent implements OnChanges, ControlValueAccessor {
   isOpen = false;
   filtered: any[] = [];
 
-  constructor() {
-    console.log("data", this.data);
-   }
+  constructor() {}
 
   onChange: any = () => { };
   onTouch: any = () => { };
@@ -62,7 +59,6 @@ export class SearchableComponent implements OnChanges, ControlValueAccessor {
   }
   ngOnChanges(changes: SimpleChanges): void {
     this.filtered = this.data;
-    console.log("Data : ",this.data)
   }
 
   open() {
@@ -96,7 +92,6 @@ export class SearchableComponent implements OnChanges, ControlValueAccessor {
       }      this.isOpen = false;
     }
   }
-
 
   filter(event: SearchbarCustomEvent) {
     const filter = event.detail.value?.toLowerCase();

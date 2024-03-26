@@ -9,13 +9,6 @@ interface Route {
   route_name: string;
 }
 
-interface Packet {
-  packet_code: number;
-  sent_qty: number;
-  crates: number;
-  ltrs_kgs: number;
-}
-
 @Component({
   selector: 'app-dispatch-details',
   templateUrl: './dispatch-details.page.html',
@@ -35,42 +28,60 @@ export class DispatchDetailsPage {
   showSaveButton: boolean = false; 
   savedPanels: Set<number> = new Set<number>();
   allPanelsSaved: boolean = false; 
-
+  minDate: string;
+  maxDate: string;
   @ViewChild('datetimePicker') datetimePicker: any;
 
-  
-  tableHeaders: string[] = ['Item', 'qty', 'Crates', 'Ltr/Kg'];
+  tableHeaders: string[] = ['Item', 'qty', 'Crates'];
+
   constructor(private router:Router,private apiService: ApiService,private spinner: NgxSpinnerService, private alertController: AlertController) {
     this.selectedDate = new Date().toISOString();
+    const today = new Date();
+    const tomorrow = new Date();
+    tomorrow.setDate(today.getDate() + 1);
+    this.minDate = today.toISOString();
+    this.maxDate = tomorrow.toISOString();
   }
 
   ngOnInit() {
-    this.getRoute();
   }
 
+  // handleDateSelected() {
+  //   this.getRoute();
+  // }
+  
   handleRouteCodeSelected(route_code: any) {
     this.selectedRoute = route_code;
     console.log('Selected Route:', this.selectedRoute);
   }
 
-  // Add a new method to handle the selected route name
   handleRouteNameSelected(route_name: string) {
-    // Perform actions with the route name if needed
     console.log('Selected Route Name:', route_name);
   }
+  
+  updateCrates(packet: any) {
+    const customerPacket = this.customerData.find((customer) => customer.packets.includes(packet));
+    if (customerPacket) {
+      const perCrateValue = packet.perCrateValue || 1; 
+      packet.crates = packet.sent_qty / perCrateValue;
+    }
+  }
 
-getRoute() {
-  this.apiService.getRequest('/master/route').subscribe((sResponse) => {
-    this.routeOptions = sResponse.data.map((item: any) => {
-      return {
-        route_code: item.route_code,
-        route_name: item.route_name,
-      };
+  truncateCrates(crates: number): number {
+    return Math.trunc(crates);
+  }
+  
+  getRoute() {
+    const formattedDate = this.formatDate(this.selectedDate);
+    this.apiService.getRoute('/master/route', formattedDate).subscribe((sResponse: any) => { 
+      if (sResponse && sResponse.status && sResponse.data) {
+        this.routeOptions = sResponse.data;
+      } else {
+        console.error('Invalid response format:', sResponse);
+      }
     });
-    console.log("routes",sResponse)
-  });
-}
-
+  }
+  
 saveData() {
   const gpNumbers = this.customerData.map(customer => customer.gp_number);
   const route_no = {
@@ -96,11 +107,13 @@ saveData() {
     console.log('Selected Date:', event.detail.value);
     this.selectedDate = event.detail.value;
     this.closeDatePicker();
+    this.getRoute();
   }
 
   allFieldsFilled(): boolean {
     return this.selectedDate !== null && this.selectedRoute !== null;
   }
+
   formatDate(date: string | Date): string {
     if (typeof date === 'string') {
       date = new Date(date);
@@ -111,6 +124,7 @@ saveData() {
   setPanelIndex(index: number) {
     this.currentPanelIndex = index;
   }
+
   isAccordionItemOpen(index: number): boolean {
     return this.accordionItemStates[index];
   }
@@ -136,7 +150,7 @@ saveData() {
         break;
       case 'end':
       if (index === this.accordionItemStates.length - 1) {
-        this.closeAccordion(index); // Close the current panel
+        this.closeAccordion(index); 
       }
         break;
     }
@@ -179,8 +193,8 @@ saveData() {
       indent_number: indentNumber,
       packets: customer.packets.map((packet: any) => ({
         packet_code: packet.packet_code,
-        sent_qty:Number(packet.sent_qty) ,  
-        crates: Number( packet.crates),   
+        sent_qty:Number(packet.sent_qty),  
+        crates: Number(packet.crates),   
         ltrs_kgs: packet.ltrs_kgs
       }))
     };
@@ -217,7 +231,6 @@ saveData() {
             console.log('Save clicked');
             this.saveData();
            this.refreshPage();
-            
           }
         }
       ]
@@ -226,12 +239,8 @@ saveData() {
     await alert.present();
   }
   refreshPage() {
-    // Get the current route URL
     const currentUrl = this.router.url;
-  
-    // Navigate to the same route without changing the URL
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      // Navigate back to the original route
       this.router.navigateByUrl(currentUrl);
     });
   }

@@ -35,6 +35,18 @@ export class ApiService {
     return this.http.get(`${this.rootUrl}${url}`, { headers });
   }
 
+
+  getRoute(url: string, pDate?: any) {
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 2000);
+    const token = this.sharedService.getToken();
+    const headers = new HttpHeaders().set('Authorization', token ? token : '');
+    let params =new HttpParams().set("pDate",pDate);
+    return this.http.get(`${this.rootUrl}${url}`, { headers,params });
+  }
+
   getRouteDispatchItems(url:string,routeCode:number,gpDate:string): Observable<any> {
     this.spinner.show();
     setTimeout(() => {
